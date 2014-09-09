@@ -1,0 +1,187 @@
+Michael Reichenberger
+ME701 Development of Computer Applications in Mechanical Engineering
+HW1
+
+Problem 1:
+
+Browsing the web is a common task on a computer In windows I can use IE, Firefox, Google Chrome, etc. I prefer to use Chromium (the opensource package which was modified and rebranded as google chrome). I can use chromium in the same capacity as google chrome, but this version is open source.
+
+Problem 2:
+
+a) more /proc/cupinfo
+
+michael@michael-VirtualBox-LinuxMint ~/ME701_HW/HW1 $ more /proc/cpuinfo
+processor	: 0
+vendor_id	: AuthenticAMD
+cpu family	: 21
+model		: 2
+model name	: AMD FX(tm)-8350 Eight-Core Processor
+stepping	: 0
+microcode	: 0x6000626
+cpu MHz		: 3961.526
+cache size	: 2048 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 4
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx fxsr_opt rdtscp lm re
+p_good nopl extd_apicid pni ssse3 lahf_lm cmp_legacy cr8_legacy arat
+bogomips	: 7923.05
+TLB size	: 1536 4K pages
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 48 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: AuthenticAMD
+cpu family	: 21
+model		: 2
+model name	: AMD FX(tm)-8350 Eight-Core Processor           
+stepping	: 0
+microcode	: 0x6000626
+cpu MHz		: 3961.526
+cache size	: 2048 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 4
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx fxsr_opt rdtscp lm re
+p_good nopl extd_apicid pni ssse3 lahf_lm cmp_legacy cr8_legacy arat
+bogomips	: 7938.49
+TLB size	: 1536 4K pages
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 48 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: AuthenticAMD
+cpu family	: 21
+model		: 2
+model name	: AMD FX(tm)-8350 Eight-Core Processor           
+stepping	: 0
+microcode	: 0x6000626
+cpu MHz		: 3961.526
+cache size	: 2048 KB
+physical id	: 0
+siblings	: 4
+core id		: 2
+cpu cores	: 4
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx fxsr_opt rdtscp lm re
+p_good nopl extd_apicid pni ssse3 lahf_lm cmp_legacy cr8_legacy arat
+bogomips	: 7948.45
+TLB size	: 1536 4K pages
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 48 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: AuthenticAMD
+cpu family	: 21
+model		: 2
+model name	: AMD FX(tm)-8350 Eight-Core Processor           
+stepping	: 0
+microcode	: 0x6000626
+cpu MHz		: 3961.526
+cache size	: 2048 KB
+physical id	: 0
+siblings	: 4
+core id		: 3
+cpu cores	: 4
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx fxsr_opt rdtscp lm re
+p_good nopl extd_apicid pni ssse3 lahf_lm cmp_legacy cr8_legacy arat
+bogomips	: 7968.31
+TLB size	: 1536 4K pages
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 48 bits physical, 48 bits virtual
+power management:
+
+b) the 'top' command lists realtime CPU and Memory usage stats in the terminal
+
+michael@michael-VirtualBox-LinuxMint ~/ME701_HW/HW1 $ top
+
+top - 16:16:09 up  1:00,  2 users,  load average: 0.88, 0.42, 0.25
+Tasks: 156 total,   3 running, 152 sleeping,   1 stopped,   0 zombie
+%Cpu(s):  6.2 us,  2.1 sy,  0.0 ni, 91.6 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem:   8176836 total,  3078352 used,  5098484 free,   160152 buffers
+KiB Swap:  2095100 total,        0 used,  2095100 free.  1960064 cached Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                                                                            
+ 1946 michael   20   0 1952396 275752  48356 S  19.1  3.4   8:27.28 cinnamon                                                                           
+ 2059 michael   20   0  561428  35820  15684 S   6.7  0.4   0:01.39 mintUpdate                                                                         
+ 1214 root      20   0  557996 149592  44304 S   3.0  1.8   1:34.83 Xorg                                                                               
+11697 michael   20   0  401052  39136  24140 S   1.7  0.5   0:09.33 plugin-containe                                                                    
+ 2090 michael   20   0  905792  31152  15060 S   0.9  0.4   0:11.89 gnome-terminal                                                                     
+11616 michael   20   0  951156 188784  45748 S   0.9  2.3   0:28.46 firefox                                                                            
+    7 root      20   0       0      0      0 R   0.2  0.0   0:02.36 rcu_sched                                                                          
+    8 root      20   0       0      0      0 S   0.2  0.0   0:01.13 rcuos/0                                                                            
+    9 root      20   0       0      0      0 S   0.2  0.0   0:00.87 rcuos/1                                                                            
+   18 root      rt   0       0      0      0 S   0.2  0.0   0:00.05 watchdog/0                                                                         
+   46 root      20   0       0      0      0 S   0.2  0.0   0:01.05 kworker/0:1                                                                        
+11841 michael   20   0   24952   1692   1164 R   0.2  0.0   0:00.75 top                                                                                
+    1 root      20   0   37352   6744   1520 S   0.0  0.1   0:02.38 init                                                                               
+    2 root      20   0       0      0      0 S   0.0  0.0   0:00.00 kthreadd                                                                           
+    3 root      20   0       0      0      0 S   0.0  0.0   0:00.33 ksoftirqd/0                                                                        
+    4 root      20   0       0      0      0 S   0.0  0.0   0:00.00 kworker/0:0                                                                        
+    5 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/0:0H                                                                       
+    6 root      20   0       0      0      0 S   0.0  0.0   0:00.49 kworker/u8:0                                                                       
+   10 root      20   0       0      0      0 S   0.0  0.0   0:00.85 rcuos/2                                                                            
+   11 root      20   0       0      0      0 S   0.0  0.0   0:00.79 rcuos/3                                                                            
+   12 root      20   0       0      0      0 S   0.0  0.0   0:00.00 rcu_bh                                                                             
+   13 root      20   0       0      0      0 S   0.0  0.0   0:00.00 rcuob/0                                                                            
+   14 root      20   0       0      0      0 S   0.0  0.0   0:00.00 rcuob/1                                                                            
+   15 root      20   0       0      0      0 S   0.0  0.0   0:00.00 rcuob/2                                                                            
+   16 root      20   0       0      0      0 S   0.0  0.0   0:00.00 rcuob/3                                                                            
+   17 root      rt   0       0      0      0 S   0.0  0.0   0:00.04 migration/0                                                                        
+   19 root      rt   0       0      0      0 S   0.0  0.0   0:00.04 watchdog/1                                                                         
+   20 root      rt   0       0      0      0 S   0.0  0.0   0:00.05 migration/1                                                                        
+   21 root      20   0       0      0      0 S   0.0  0.0   0:00.07 ksoftirqd/1                                                                        
+   23 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/1:0H                                                                       
+   24 root      rt   0       0      0      0 S   0.0  0.0   0:00.04 watchdog/2                                                                         
+   25 root      rt   0       0      0      0 S   0.0  0.0   0:00.04 migration/2                                                                        
+   26 root      20   0       0      0      0 S   0.0  0.0   0:00.03 ksoftirqd/2 
+
+Problem 3:
+a) See temp_conv.sh
+OUTPUT:
+michael@michael-VirtualBox-LinuxMint ~/ME701_HW/HW1 $ ./temp_conv.sh 0
+0 degrees F = -15 degrees C
+
+b) 
+
+c)
+
+Problem 4:
+a)https://github.com/mcriech/ME701/tree/master
+
+b)
+
+
+
