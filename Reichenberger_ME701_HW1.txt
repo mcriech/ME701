@@ -176,7 +176,22 @@ michael@michael-VirtualBox-LinuxMint ~/ME701_HW/HW1 $ ./temp_conv.sh 0
 
 b) 
 
-c)
+c) See throw_away.sh
+OUTPUT:
+(File exists and is moved)
+michael@michael-VirtualBox-LinuxMint ~/ME701 $ ./throw_away.sh test.txt
+test.txt has been moved to the trash (/home/michael/TRASH)
+
+(No file specified)
+michael@michael-VirtualBox-LinuxMint ~/ME701 $ ./throw_away.sh
+Must provide file to delete as argument
+
+(File does not exist)
+michael@michael-VirtualBox-LinuxMint ~/ME701 $ ./throw_away.sh
+Must provide file to delete as argument
+
+Additionally, the script will check that /home/michael/TRASH exists, if it does not it is created
+
 
 Problem 4:
 a)https://github.com/mcriech/ME701/tree/master
