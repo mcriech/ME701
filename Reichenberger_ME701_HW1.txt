@@ -181,7 +181,7 @@ c)
 Problem 4:
 a)https://github.com/mcriech/ME701/tree/master
 
-b)
+b)https://github.com/mcriech/ME701/commits/master/temp_conv.sh
 
 
 
