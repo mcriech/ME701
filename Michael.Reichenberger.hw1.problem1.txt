@@ -1,0 +1,7 @@
+Michael Reichenberger
+ME701 Development of Computer Applications in Mechanical Engineering
+HW1
+
+Problem 1:
+
+Browsing the web is a common task on a computer In windows I can use IE, Firefox, Google Chrome, etc. I prefer to use Chromium (the opensource package which was modified and rebranded as google chrome). I can use chromium in the same capacity as google chrome, but this version is open source.

@@ -1,0 +1,9 @@
+Michael Reichenberger
+ME701 Development of Computer Applications in Mechanical Engineering
+HW1
+
+Problem 4:
+
+a)https://github.com/mcriech/ME701/tree/master
+
+b)https://github.com/mcriech/ME701/commits/master/temp_conv.sh
