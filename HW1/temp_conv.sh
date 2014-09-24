@@ -6,18 +6,18 @@ declare -i tempF tempC tempK
 
 #If the use gave a temperature as an arguement, use it
 #Otherwise wait for an input
-if [ $# > 0];
+if [ "$#" == 0 ];
 then
-  tempF=$1
-else
   read tempF
+else
+  tempF=$1
 fi
 
 #Convert the temperature from F to C
 tempC=($tempF-32)/9*5
 
 #Convert C to K
-tempK=($tempC-273.15)
+tempK=($tempC-273)
 
 #Print out the temperature in F (input) and C (output)
 echo "$tempF degrees F = $tempC degrees C"
