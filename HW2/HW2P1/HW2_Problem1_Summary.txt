@@ -1,0 +1,21 @@
+Michael Reichenberger
+ME701
+HW2_Problem1_Summary
+
+Step 1:
+	Read in the data points from masses.txt
+	Read this in as a numpy array where the first column is Z,
+	     the second column is A, and the third column is BE
+Step 2:
+	Write a root mean square error function (or find one in the
+	scipy module...)
+Step 3:
+	Minimize the root mean square of the error using scipy
+Step 4:
+	Plot the data points and the calculated results (with calculated coeffs)
+	Remember to use the XKCD module in matplotlib!	
+	
+	
+RESULTS:
+Coefficients: [  9.92132626e-01 , 1.63378305e-02 , 7.23746403e-04 , 2.48575408e-02 , -5.40342476e-03]
+RMS_Error: 0.00441123241728
