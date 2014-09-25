@@ -1,0 +1,5 @@
+I noticed 2 strange results:
+
+1) Every method estimated the first integral nearly perfect with n = 1
+2) The Simposon method out-performed the Legendre-Gauss method. I assumed that the Legendre-Gauss method would work the
+		best, but that may only be the case for large N or more complex functions.
