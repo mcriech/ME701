@@ -17,6 +17,7 @@ from Midpoint import midpoint
 from Simpson import simpson
 from Legendre_Gauss import leg_gauss
 
+plt.xkcd()
 #============================================================================================================#
 #Define the functions that I want to integrate
 F1 = Functions.Function_1
@@ -29,20 +30,21 @@ Est = [[]]
 maxN = 10
 for N in range(maxN):
     Est.append([])
+#For each method, save the aproximation for each function as a list in the Est list
 #============================================================================================================#
-#MIDPOINT
+#MIDPOINT Method
     Est[N].append([])
     Est[N][0].append(midpoint(F1, 1, -1, N + 1))
     Est[N][0].append(midpoint(F2, 5, -5, N + 1))
     Est[N][0].append(midpoint(F3, 0, np.pi, N + 1))
 #============================================================================================================#
-#SIMPOSONS
+#SIMPOSONS Method
     Est[N].append([])
     Est[N][1].append(simpson(F1, 1, -1, N + 1))
     Est[N][1].append(simpson(F2, 5, -5, N + 1))
     Est[N][1].append(simpson(F3, 0, np.pi, N + 1))
 #============================================================================================================#
-#GAUSS_LEGENDRE
+#GAUSS_LEGENDRE Method
     Est[N].append([])
     Est[N][2].append(leg_gauss(F1, 1, -1, N + 1))
     Est[N][2].append(leg_gauss(F2, 5, -5, N + 1))
@@ -57,6 +59,7 @@ plt.ylabel('Normalized, Absolute Error (log)')
 midpoint_error = []
 simps_error = []
 gl_error = []
+#Find the errors for each method by comparing the anser for the first function to the estimates for each N
 for N in range(maxN):
     midpoint_error.append(np.abs((Ans[0] - Est[N][0][0])))
     simps_error.append(np.abs((Ans[0] - Est[N][1][0])))
@@ -74,6 +77,7 @@ plt.ylabel('Normalized, Absolute Error (log)')
 midpoint_error = []
 simps_error = []
 gl_error = []
+#Find the errors for each method by comparing the anser for the second function to the estimates for each N
 for N in range(maxN):
     midpoint_error.append(np.abs((Ans[1] - Est[N][0][1])/Ans[1]))
     simps_error.append(np.abs((Ans[1] - Est[N][1][1])/Ans[1]))
@@ -91,6 +95,7 @@ plt.ylabel('Normalized, Absolute Error (log)')
 midpoint_error = []
 simps_error = []
 gl_error = []
+#Find the errors for each method by comparing the anser for the third function to the estimates for each N
 for N in range(maxN):
     midpoint_error.append(np.abs((Ans[2] - Est[N][0][2])/Ans[2]))
     simps_error.append(np.abs((Ans[2] - Est[N][1][2])/Ans[2]))
