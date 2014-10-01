@@ -36,11 +36,11 @@ starting_coeffs = (1, 0, 0, 0, 0)
 #minimize function call.
 results = minimize(RMS_E, starting_coeffs, (SEMF, mass_data))
 #Print the results of the minization
-print results.message
+#print results.message
 coeffs = results.x
-print coeffs
+print "\nCoefficients:", coeffs
 RMS_error = results.fun
-print RMS_error
+print "Minimized RMS Error:", RMS_error
 #=============================================================================================#
 #Plot the data and the approximation
 #Desire a  3D plot and a 2D representative slice

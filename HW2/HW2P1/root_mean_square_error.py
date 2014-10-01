@@ -42,6 +42,6 @@ def RMS_E(coefficients, function, data):
             RMS_error += RMS[point][2]
     #Find the square root of the Root Mean Square error
     RMS_error = sqrt(RMS_error)
-    print RMS_error
+    print "Current RMS error:", RMS_error
     return RMS_error
         
