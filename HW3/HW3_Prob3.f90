@@ -42,6 +42,6 @@ PROGRAM PRIME_FINDER
  
  !Print out the results
  print *, "Found", np, "primes in", real(t2 - t1)/real(clock_rate), "seconds"
- print *, "My python script Found 9592 primes in 1E5 in 74.125 seconds..."
- print *, "FORTRAN can do that in a meer 0.74 seconds, 10,000 times faster!!!"
+ print *, "My python script Found 9592 primes in 1E5 in 74 seconds..."
+ print *, "FORTRAN can do that in a meer 0.7 seconds, 10,000 times faster!!!"
 END PROGRAM PRIME_FINDER
