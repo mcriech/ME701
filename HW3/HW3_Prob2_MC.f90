@@ -4,7 +4,7 @@ PROGRAM MC_Integration
  !Initialize variables 
  !n = number of dimensions for the integral
  !N = number of MC iterations
- INTEGER, PARAMETER :: dimensions = 10, iterations = 500000000
+ INTEGER, PARAMETER :: dimensions = 10, iterations = 1000000
  INTEGER :: dimension = 0, iteration = 0, t1, t2, clock_rate, clock_max
  REAL :: z = 0.0, var = 0.0, zi = 1.0, I = 0.0, sI = 0.0, x = 0.0, solution = 1.0
  !Start the timer
