@@ -22,9 +22,9 @@ PROGRAM MC_Integration
    CALL RANDOM_NUMBER(x)
    zi = zi*x
   END DO
+  var = var + zi/iterations
   zi = sqrt(zi)
-  z = z + zi/iterations
-  var = var + zi*zi/iterations
+  z = z + zi/iterations  
  END DO
  !Find the expected value and standard deviation
  I = z
