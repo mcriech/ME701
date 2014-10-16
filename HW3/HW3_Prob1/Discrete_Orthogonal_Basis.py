@@ -14,4 +14,4 @@ class Discrete_Orth_Basis(Orth_Basis):
         '''
         Constructor
         '''
-        super(Discrete_Orth_Basis, self).__init__("Continuous", method)
+        super(Discrete_Orth_Basis, self).__init__("discrete", method)
