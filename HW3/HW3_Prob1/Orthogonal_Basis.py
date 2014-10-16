@@ -14,3 +14,12 @@ class Orth_Basis(object):
         Constructor
         '''
         
+        
+    def Transform(self, P, func):
+        '''
+        Takes in the Orthoganal basis functions (P) and
+        function to be transformed (func) and returns 
+        coefficients (A)
+        '''
+        
+        return A
