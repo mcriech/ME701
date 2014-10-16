@@ -11,8 +11,13 @@ class Leg_Polys(Cont_Orth_Basis):
     '''
 
 
-    def __init__(self, params):
+    def __init__(self, n):
         '''
         Constructor
         '''
+        super(Leg_Polys, self).__init__("Legendre Polynomials")
+        self.n = n
         
+    def Find_P_Functions(self)    :
+        
+        return P

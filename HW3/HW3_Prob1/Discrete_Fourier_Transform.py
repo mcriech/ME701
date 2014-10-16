@@ -11,8 +11,13 @@ class Disc_Fourier_Trans(Discrete_Orth_Basis):
     '''
 
 
-    def __init__(self, params):
+    def __init__(self, n):
         '''
         Constructor
         '''
+        super(Disc_Fourier_Trans, self).__init__("Discrete Fourier Transform")
+        self.n = n        
         
+    def Find_P_Functions(self):
+        
+        return P

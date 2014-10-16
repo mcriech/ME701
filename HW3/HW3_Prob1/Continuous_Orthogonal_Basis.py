@@ -11,23 +11,24 @@ class Cont_Orth_Basis(Orth_Basis):
     '''
 
 
-    def __init__(self, params):
+    def __init__(self, method):
         '''
         Constructor
         '''
+        super(Cont_Orth_Basis, self).__init__("Continuous", method)
     
-    def Transform(self, f):
+    def Transform(self, P, func):
         '''
-        Transforms the funciton f into the form of the continuous orthogonal basis
-        '''        
-        
-        
-    def find_weight(self, x):
+        Takes in the Orthoganal basis functions (P) and
+        function to be transformed (func) and returns 
+        coefficients (A)
         '''
-        Continuous orthoganol basis requiest a continuous funciton
+        raise NotImplementedError
+
+    def Inverse_Transform(self, P, func):
         '''
-        
-    def find_P(self, x):
+        Takes a set of transformed function coefficients and
+        finds the approximate function integral given the 
+        correct expansion coefficients
         '''
-        Continuous orthoganol basis requires 
-        '''
+        raise NotImplementedError
