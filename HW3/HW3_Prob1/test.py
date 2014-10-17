@@ -5,43 +5,47 @@ Created on Wed Oct 15 16:03:15 2014
 @author: Michael
 """
 from Legendre_Polynomials import Leg_Polys
-
+from Fourier_Transform import Fourier_Trans
+from Discrete_Fourier_Transform import Disc_Fourier_Trans
 import scipy.integrate as integrate
 from scipy.special import jn as bessel
 
 def Test_1(x):
-    y = x**2 + x + 1
-    return y
+    return x**2 + x + 1.0
 
 def Test_2(x):
-    y = 1/(1 + x**2)
-    return y
+    return 1.0/(1.0 + x**2)
     
 def Test_3(x):
-    y = bessel(0,x)
-    return y
-
+    return bessel(0,x)
+#TESTS is an array of the functions we want to test
+TESTS = [Test_1, Test_2, Test_3]
+#Test_Res is an array of the test results
+Leg_Test_Res = []
+Four_Test_Res = []
+Disc_Test_Res = []
 #Use Continuous Legendre Polynomials to approximate the 3 test functions    
 #Generate the test basis as a legendre polynomial basis
-test = Leg_Polys(10)
+Leg = Leg_Polys(2)
+Four = Fourier_Trans(1)
+Disc = Disc_Fourier_Trans(10)
 #Perform each test by transforming the function and then inverse transforming it
 #Compare the inverse transform approximation to the numerical quadriture built
 #into scipy
-test_1_Transform = test.Transform(Test_1, 0, 10)
-test_1_Inverse_Transform = test.Inverse_Transform(test_1_Transform)
-test_1_Numerical_Integration = integrate.quad(Test_1, 0, 10)[0]
-#Save the inverse transform approximation and numerical quadriture values in
-#a tuple to be referenced later for comparison
-TEST_1 = (test_1_Inverse_Transform, test_1_Numerical_Integration)
-#Repeat for test_2
-test_2_Transform = test.Transform(Test_2, -1, 1)
-test_2_Inverse_Transform = test.Inverse_Transform(test_2_Transform)
-test_2_Numerical_Integration = integrate.quad(Test_2, -1, 1)[0]
-TEST_2 = (test_2_Inverse_Transform, test_2_Numerical_Integration)
-#Repeat for test_3
-test_3_Transform = test.Transform(Test_3, -1, 1)
-test_3_Inverse_Transform = test.Inverse_Transform(test_3_Transform)
-test_3_Numerical_Integration = integrate.quad(Test_3, -1, 1)[0]
-TEST_3 = (test_3_Inverse_Transform, test_3_Numerical_Integration)
-#Print out the results
-print TEST_1, '\n', TEST_2, '\n', TEST_3
+for test in TESTS:
+    Leg_trans = Leg.Transform(test, -1, 1)
+    Four_trans = Four.Transform(test, -1, 1)
+    Disc_trans = Four.Transform(test, -1, 1)
+    Leg_inv_trans = Leg.Inverse_Transform(Leg_trans)
+    Four_inv_trans = Four.Inverse_Transform(Four_trans)
+    Disc_inv_trans = Four.Inverse_Transform(Disc_trans)
+    Leg_comp = integrate.quad(test, -1, 1)
+    Four_comp = Leg_comp
+    Disc_comp = Leg_comp
+    Leg_Test_Res.append((Leg_inv_trans, Leg_comp))
+    Four_Test_Res.append((Four_inv_trans, Four_comp))
+    Disc_Test_Res.append((Disc_inv_trans, Disc_comp))
+    print (Leg_inv_trans, Leg_comp[0])
+    print (Four_inv_trans, Four_comp[0])
+    print (Disc_inv_trans, Disc_comp[0])
+    

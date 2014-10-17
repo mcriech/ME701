@@ -35,7 +35,7 @@ class Orth_Basis(object):
             for l in range(self.n):
                 #We need to combine the continuous basis function and the input
                 #function to feed into the integrate function
-                self.g = lambda x: self.P[l]((-1 + (self.b - x)/(self.b - self.a)*2),l)*func((-1 + (self.b - x)/(self.b - self.a)*2))
+                self.g = lambda x: self.P[l](x,l)*func(x)
                 #The coefficient is the integral from a to b of the product of
                 #the basis function and the input function
                 F[l] = integrate.quad(self.g, self.a, self.b)[0]
@@ -47,6 +47,7 @@ class Orth_Basis(object):
                 F[l] = np.dot(self.P[l], func)
         else:
             print "You have selected an invalid basis type... sucks for you"
+            raise NotImplementedError
         return F
 
     def Inverse_Transform(self, F):
@@ -61,7 +62,7 @@ class Orth_Basis(object):
             for l in range(self.n):
                 #We need to combine the continuous basis function and the input
                 #function to feed into the integrate function
-                self.g = lambda x: F[l]*self.P[l]((-1 + (self.b - x)/(self.b - self.a)*2),l)
+                self.g = lambda x: F[l]*self.P[l](x,l)
                 #The coefficient is the integral from a to b of the product of
                 #the basis function and the input function
                 f_approx = f_approx + integrate.quad(self.g, self.a, self.b)[0]

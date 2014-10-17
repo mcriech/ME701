@@ -4,7 +4,7 @@ Created on Oct 13, 2014
 @author: michael
 '''
 from Continuous_Orthogonal_Basis import Cont_Orth_Basis
-
+from fourier import Fourier
 class Fourier_Trans(Cont_Orth_Basis):
     '''
     classdocs
@@ -26,5 +26,5 @@ class Fourier_Trans(Cont_Orth_Basis):
         n = self.n        
         P = n*[0.0]        
         for l in range(n):
-            P[l] = 
+            P[l] = Fourier
         return P

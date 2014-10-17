@@ -5,6 +5,7 @@ Created on Oct 13, 2014
 '''
 from Continuous_Orthogonal_Basis import Cont_Orth_Basis
 from legendre import Legendre
+
 class Leg_Polys(Cont_Orth_Basis):
     '''
     classdocs
