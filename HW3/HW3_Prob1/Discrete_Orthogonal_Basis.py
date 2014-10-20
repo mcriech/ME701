@@ -10,10 +10,8 @@ class Discrete_Orth_Basis(Orth_Basis):
     classdocs
     '''
 
-    def __init__(self, params):
+    def __init__(self, method):
         '''
-        The weights for a discrete orthoganol basis are discrete values
+        Constructor
         '''
-        self.weights = []
-        self.P = []
-        
+        super(Discrete_Orth_Basis, self).__init__("discrete", method)

@@ -11,23 +11,8 @@ class Cont_Orth_Basis(Orth_Basis):
     '''
 
 
-    def __init__(self, params):
+    def __init__(self, method):
         '''
         Constructor
         '''
-    
-    def Transform(self, f):
-        '''
-        Transforms the funciton f into the form of the continuous orthogonal basis
-        '''        
-        
-        
-    def find_weight(self, x):
-        '''
-        Continuous orthoganol basis requiest a continuous funciton
-        '''
-        
-    def find_P(self, x):
-        '''
-        Continuous orthoganol basis requires 
-        '''
+        super(Cont_Orth_Basis, self).__init__("continuous", method)
