@@ -1,13 +1,22 @@
-# Test of the F2PY HFE_Py module
-from HFE_Py import *
+# Test of the F2PY hfe_Py module
+from f2py_HFE import *
+from matplotlib import pyplot as plt
+import numpy as np
 
-HFE.Allocate_Matrices()
-HFE.Create_Identity_Matrix()
-HFE.Create_Temp_Sol_Vectors()
-HFE.Create_Coeffs_Matrix()
-HFE.Create_Diag_Matrix()
-HFE.Solve()
+plt.xkcd()
 
-print HFE.Temps
+divisions = input('How many division?\n')
 
-HFE.Deallocate_Matrices()
+heat_eqn_solver.n = divisions
+heat_eqn_solver.Solve()
+
+temps = heat_eqn_solver.Temps
+
+heat_eqn_solver.Deallocate_Matrices()
+
+plt.figure(1)
+x = np.linspace(0, hfe.L, hfe.n)
+plt.scatter(x, temps, '-o')
+xlabel('x position')
+ylabel('Temp')
+plt.show()

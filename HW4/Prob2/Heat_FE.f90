@@ -1,4 +1,4 @@
-program Heat_eqn_solver
+module heat_eqn_solver
 implicit none
 
 !Define the constants
@@ -8,17 +8,15 @@ real :: L = 10.0, dx, change = 1.0
 real, parameter :: tolerance = 0.0001
 !Define some iteration variables
 integer :: row, element,  n = 5
-!Define the problem arrays
-real, allocatable, dimension(:) :: Temps, Old_Temps, Sol
-real, allocatable, dimension(:,:) :: Coeffs, Ident, Diag, Temp_Coeffs
+real, dimension(5) :: Temps, Sol, Old_Temps
+real, dimension(5,5) :: Coeffs, Ident, Diag, Temp_Coeffs
 
+contains
 
-Allocate (Temps(n), Sol(n), Coeffs(n,n),Ident(n,n), Diag(n,n))
+subroutine solve()
 aa = A*T0 + B*dTdx_0
 bb = C*TL + D*dTdx_L
-
 dx = L/n
-
 !Create the Temps and solution vectors
     Temps = 0.0
     dx = L/n
@@ -61,8 +59,6 @@ dx = L/n
         end if
     end do
 !Iterate using the Jacobi method to find the solution
-    allocate(Temp_Coeffs(n,n))
-    allocate(Old_Temps(n))
     Temp_Coeffs = 0.0
     Old_Temps = 0.0
     do while (change > tolerance .or. change < -tolerance)
@@ -71,8 +67,7 @@ dx = L/n
         Temps = MATMUL(Temp_Coeffs, Temps) + Sol
         change = MAXVAL(Temps - Old_Temps)
     end do
-    deallocate(Temp_Coeffs, Old_Temps)
-!Print out the solution
-print *, Temps
-Deallocate (Temps, Sol, Coeffs, Ident, Diag)
-end program Heat_eqn_solver
+    print *, Temps
+end subroutine solve
+
+end module heat_eqn_solver

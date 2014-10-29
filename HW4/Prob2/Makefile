@@ -1,12 +1,12 @@
-all: HFE HFE_Py
+all: f2py_HFE Fortran
 
-# Fortran demonstration
-HFE:
-	gfortran HFE.f90 test_HFE.f90 -o $@ 
+# Fortran
+Fortran:
+	gfortran Heat_FE.f90 test_HFE.f90 -o TEST
 
-# F2PY demonstration
-HFE_Py:
-	f2py2.7 -c -m $@ HFE.f90
+# F2PY 
+f2py_HFE:
+	f2py2.7 -c -m $@ Heat_FE.f90
 
 # Remove objects, module files, and exectables
 clean:
