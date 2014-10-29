@@ -2,14 +2,14 @@ module heat_eqn_solver
 implicit none
 
 !Define the constants
-real :: A = 1.0, B = 0.0, C = 1.0, D = 0.0, aa = 0.0, bb = 0.0, k = 2.05, Q = 5.0
-real :: T0 = 100.0, TL = 100.0, dTdx_0 = 0.0, dTdx_L = 0.0
+real :: A = 1.0, B = 0.0, C = 1.0, D = 0.0, aa = 0.0, bb = 0.0, k = 2.05
+real :: T0 = 100.0, TL = 100.0, dTdx_0 = 0.0, dTdx_L = 0.0 , Q = 5.0
 real :: L = 10.0, dx, change = 1.0
 real, parameter :: tolerance = 0.0001
 !Define some iteration variables
 integer :: row, element,  n = 5
-real, allocatable, dimension(:) :: Temps, Sol, Old_Temps
-real, allocatable, dimension(:,:) :: Coeffs, Ident, Diag, Temp_Coeffs
+double precision, allocatable, dimension(:) :: Temps, Sol, Old_Temps
+double precision, allocatable, dimension(:,:) :: Coeffs, Ident, Diag, Temp_Coeffs
 
 contains
 
