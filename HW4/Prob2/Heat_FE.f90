@@ -8,8 +8,8 @@ real :: L = 10.0, dx, change = 1.0
 real, parameter :: tolerance = 0.0001
 !Define some iteration variables
 integer :: row, element,  n = 5
-real, dimension(5) :: Temps, Sol, Old_Temps
-real, dimension(5,5) :: Coeffs, Ident, Diag, Temp_Coeffs
+real, allocatable, dimension(:) :: Temps, Sol, Old_Temps
+real, allocatable, dimension(:,:) :: Coeffs, Ident, Diag, Temp_Coeffs
 
 contains
 
@@ -18,6 +18,13 @@ aa = A*T0 + B*dTdx_0
 bb = C*TL + D*dTdx_L
 dx = L/n
 !Create the Temps and solution vectors
+	allocate(Temps(n))
+	allocate(Sol(n))
+	allocate(Old_Temps(n))
+	allocate(Coeffs(n,n))
+	allocate(Ident(n,n))
+	allocate(Diag(n,n))
+	allocate(Temp_Coeffs(n,n))
     Temps = 0.0
     dx = L/n
     T0 = aa
@@ -68,6 +75,7 @@ dx = L/n
         change = MAXVAL(Temps - Old_Temps)
     end do
     print *, Temps
+	deallocate(Temps, Sol, Old_Temps, Coeffs, Ident, Diag, Temp_Coeffs)
 end subroutine solve
 
 end module heat_eqn_solver
