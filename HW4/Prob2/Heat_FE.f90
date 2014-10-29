@@ -8,7 +8,7 @@ real :: L = 10.0, dx, change = 1.0
 real, parameter :: tolerance = 0.0001
 !Define some iteration variables
 integer :: row, element,  n = 5
-double precision, allocatable, dimension(:) :: Temps, Sol, Old_Temps
+double precision, allocatable, dimension(:) :: temps, Sol, Old_temps
 double precision, allocatable, dimension(:,:) :: Coeffs, Ident, Diag, Temp_Coeffs
 
 contains
@@ -17,25 +17,25 @@ subroutine solve()
 aa = A*T0 + B*dTdx_0
 bb = C*TL + D*dTdx_L
 dx = L/n
-!Create the Temps and solution vectors
-	allocate(Temps(n))
+!Create the temps and solution vectors
+	allocate(temps(n))
 	allocate(Sol(n))
-	allocate(Old_Temps(n))
+	allocate(Old_temps(n))
 	allocate(Coeffs(n,n))
 	allocate(Ident(n,n))
 	allocate(Diag(n,n))
 	allocate(Temp_Coeffs(n,n))
-    Temps = 0.0
+    temps = 0.0
     dx = L/n
     T0 = aa
     TL = bb
     Sol = Q*dx*dx/k
-    !Change the first and last elements of Sol and Temps for
+    !Change the first and last elements of Sol and temps for
     !the boundary conditions
     Sol(1) = aa
-    Temps(1) = T0
+    temps(1) = T0
     Sol(n) = bb
-    Temps(n) = TL
+    temps(n) = TL
 !Create the coeffs array
     Coeffs = 0.0
     !Do the interior rows of the coeffs array
@@ -67,15 +67,17 @@ dx = L/n
     end do
 !Iterate using the Jacobi method to find the solution
     Temp_Coeffs = 0.0
-    Old_Temps = 0.0
+    Old_temps = 0.0
     do while (change > tolerance .or. change < -tolerance)
-        Old_Temps = Temps
+        Old_temps = temps
         Temp_Coeffs = Ident- MATMUL(Diag, Coeffs)
-        Temps = MATMUL(Temp_Coeffs, Temps) + Sol
-        change = MAXVAL(Temps - Old_Temps)
+        temps = MATMUL(Temp_Coeffs, temps) + Sol
+        change = MAXVAL(temps - Old_temps)
     end do
-    print *, Temps
-	deallocate(Temps, Sol, Old_Temps, Coeffs, Ident, Diag, Temp_Coeffs)
 end subroutine solve
+
+subroutine deallocate()
+    deallocate(temps, Sol, Old_temps, Coeffs, Ident, Diag, Temp_Coeffs)
+end subroutine deallocate
 
 end module heat_eqn_solver
