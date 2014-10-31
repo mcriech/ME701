@@ -4,7 +4,7 @@ import numpy as np
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class Form(QLabel) :
+class Form(QDialog) :
     def __init__(self, parent=None) :
         super(Form, self).__init__(parent)
         self.functions = [None]
@@ -39,7 +39,7 @@ class Form(QLabel) :
         self.functions = ['x + 2',
                           'x*2',
                           'x**2',
-                          'sin(x)'
+                          'sin(' + 'x' + ')'
                           ]
 
     def updateUI(self) :
@@ -50,8 +50,3 @@ class Form(QLabel) :
             self.output_edit.setText(f)
         except :
             self.output_edit.setText("Err....orrrrr")
-
-app = QApplication(sys.argv)
-form = Form()
-form.show()
-app.exec_()
