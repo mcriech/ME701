@@ -3,12 +3,10 @@ program OMP_Midpoint
 use omp_lib
 implicit none
 
- INTEGER, PARAMETER :: points = 10, dimensions = 2, threads = 1
- INTEGER :: time_start, time_end, time_rate, clock_max, i, j
- REAL, PARAMETER :: lower_bound = 0.0, upper_bound = 1.0
- REAL :: time, dx
- REAL :: x_temp, y_temp, temp, integral_partial = 0.0, integral = 0.0
-
+ INTEGER :: points = 100000, threads = 1
+ INTEGER :: time_start, time_end, time_rate, clock_max, i = 1, j = 1
+ REAL, PARAMETER :: lower_bound = 0.0, upper_bound = 100.0
+ DOUBLE PRECISION :: time, dx = 1.0, integral = 0.0, integral_partial = 0.0, x = 0.0, y = 0.0
 
  Call OMP_set_num_threads(threads)
 
@@ -17,18 +15,16 @@ implicit none
 
  Call SYSTEM_CLOCK(time_start, time_rate, clock_max)
  !Do the parallel calculation here
- !$omp parallel
+ !$omp parallel private (j, y, integral_partial) shared(i, x, points, integral)
+ x = 0.0
  !$omp do
- do i = 0, points - 1
-  x_temp = dx*i + dx/2.0
-  print *, x_temp
-  !$omp do
-  do j = 0, points - 1
-   y_temp = dx*j + dx/2.0
-   temp = integrand(x_temp, y_temp)
-   integral_partial = integral_partial + temp*dx**2
+ do i = 1, points
+  x = x + dx
+  y = 0.0
+  do j = 1, points
+   y = y + dx
+   integral_partial = integral_partial + (x + y)*dx*dx
   end do
-  !$omp end do
  end do
  !$omp end do
  !$omp critical
@@ -39,15 +35,9 @@ implicit none
  time = real(time_end - time_start)/real(time_rate) 
 
  !Print out the solution
+ print *, "dx =", dx
  print *, "Solution =", integral
  print *, "Time =", time, "seconds"
- 
-CONTAINS
-  REAL function integrand(x, y)
-   implicit none
-   REAL, INTENT(IN) :: x, y
-    integrand = sqrt(x + y)
-  end function integrand
 
 end program OMP_Midpoint
 
