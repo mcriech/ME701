@@ -3,7 +3,7 @@ program OMP_Midpoint
 use omp_lib
 implicit none
 
- INTEGER :: points = 100000, threads = 1
+ INTEGER :: points = 200000, threads = 8
  INTEGER :: time_start, time_end, time_rate, clock_max, i = 1, j = 1
  REAL, PARAMETER :: lower_bound = 0.0, upper_bound = 100.0
  DOUBLE PRECISION :: time, dx = 1.0, integral = 0.0, integral_partial = 0.0, x = 0.0, y = 0.0
