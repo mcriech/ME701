@@ -8,9 +8,9 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()	
 
-upper_bound = 1.0
+upper_bound = 100.0
 lower_bound = 0.0
-points = 1000.0
+points = 20000.0
 
 integral = 0.0
 partial_integral = 0.0
@@ -39,5 +39,3 @@ time = end - start
 
 if rank == 0:
  print "Integral:", integral, "Time:", time, "seconds"
-
-return time
