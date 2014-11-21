@@ -51,7 +51,7 @@ E_X = E_X()
 #Random Number Generator and relevant MC stuff
 random = PM_RNG()
 i = 0
-N = 1E5
+N = 1E3
 percent = N/100
 #Various Counters
 energy_dep = []

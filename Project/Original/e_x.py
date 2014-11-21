@@ -18,7 +18,7 @@ class E_X:
     def __init__(self):
           #build dEdx for alpha in Ar
           self.EX_alpha_Ar = []
-          EX = csv.reader(open(".\\Data\\alphaInArEX.csv", "r"))
+          EX = csv.reader(open("./Data/alphaInArEX.csv", "r"))
           EX_list = []
           EX_list.extend(EX)
           i = 0
@@ -31,7 +31,7 @@ class E_X:
                i += 1
           #build dEdx for alpha in strut
           self.EX_alpha_Strut = []
-          EX = csv.reader(open(".\\Data\\alphaInStrutEX.csv", "r"))
+          EX = csv.reader(open("./Data/alphaInStrutEX.csv", "r"))
           EX_list = []
           EX_list.extend(EX)
           i = 0
@@ -44,7 +44,7 @@ class E_X:
                i += 1
           #build dEdx for triton in Ar
           self.EX_triton_Ar = []
-          EX = csv.reader(open(".\\Data\\tritonInArEX.csv", "r"))
+          EX = csv.reader(open("./Data/tritonInArEX.csv", "r"))
           EX_list = []
           EX_list.extend(EX)
           i = 0
@@ -57,7 +57,7 @@ class E_X:
                i += 1
           #build dEdx for triton in strut
           self.EX_triton_Strut = []
-          EX = csv.reader(open(".\\Data\\tritonInStrutEX.csv", "r"))
+          EX = csv.reader(open("./Data/tritonInStrutEX.csv", "r"))
           EX_list = []
           EX_list.extend(EX)
           i = 0
