@@ -51,7 +51,7 @@ E_X = E_X()
 #Random Number Generator and relevant MC stuff
 random = PM_RNG()
 i = 0
-N = 1E3
+N = 1E5
 percent = N/100
 #Various Counters
 energy_dep = []
@@ -341,14 +341,14 @@ detected = (N - not_detected - escaped)
 detection_efficiency = detected/N*100
 error = math.sqrt(detected)/N*100
 print 'Detection Efficiency:', detection_efficiency, '+/-', error, '%'
-font = {'family' : 'normal',
-        'weight' : 'normal',
-        'size' : 14}
-plt.rc('font', **font)
-plt.figure(1)
-#plt.title('Reaction Product Pulse Height Spectrum 40% LiF Impregnated Foam 1in tube\n')
-plt.xlabel('Reaction Product Energy Deposited in Gas Pores (MeV)')
-plt.ylabel('Number of Histories')
-plt.xlim(0, 4.8)
-plt.hist(energy_dep,100)
-np.savetxt("PHS.csv", energy_dep, delimiter=',')
+#font = {'family' : 'normal',
+#        'weight' : 'normal',
+#        'size' : 14}
+#plt.rc('font', **font)
+#plt.figure(1)
+##plt.title('Reaction Product Pulse Height Spectrum 40% LiF Impregnated Foam 1in tube\n')
+#plt.xlabel('Reaction Product Energy Deposited in Gas Pores (MeV)')
+#plt.ylabel('Number of Histories')
+#plt.xlim(0, 4.8)
+#plt.hist(energy_dep,100)
+#np.savetxt("PHS.csv", energy_dep, delimiter=',')
