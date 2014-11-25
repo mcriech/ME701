@@ -5,7 +5,7 @@ created: 2014.11.19
 '''
 Import Statements
 '''
-class PM_RNG:
+class rng:
     '''
     Class Definition
     '''

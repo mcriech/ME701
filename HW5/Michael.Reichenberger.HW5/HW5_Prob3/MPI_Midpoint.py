@@ -11,23 +11,21 @@ size = comm.Get_size()
 upper_bound = 100.0
 lower_bound = 0.0
 points = 20000.0
-
-integral = 0.0
-partial_integral = 0.0
-
 dx = (upper_bound - lower_bound)/points
-
 a = int(1 + (points / size)*rank)
 b = int((points / size)*(rank + 1))
+
+partial_integral = 0.0
+
 while a <= b:
- x = dx*a - dx
+ x = dx*a - dx/2
  a += 1
  for j in range(int(points)):
-  y = dx*j + dx
+  y = dx*j + dx/2
   partial_integral += (x + y)*dx**2
 
 if rank == 0:
- integral += partial_integral
+ integral = partial_integral
  for r in range(1, size):
   integral += comm.recv(source=r, tag=111)
 
