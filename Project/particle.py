@@ -35,18 +35,19 @@ Reaction Product
 		Report Ionization		
 """
 
-from foam.py import *
+from foam import *
+import numpy as np
 
 class particle:
-    def __init__(self, foam):
-        '''
+	def __init__(self, foam):
+		'''
 		The path is composed of tuples (path_length, 'element') where the path_length is the actual
 		particle path length of travel, and the element is either strut, pore, or layer for that 
 		path length.
-        '''
-        self.name = None
-        self.path = []
-        self.foam = foam
+		'''
+		self.name = None
+		self.path = []
+		self.foam = foam
 		self.path_index = 0
 		
 	def get_material(self):
@@ -58,8 +59,6 @@ class particle:
 		else:
 			material = self.foam.layer
 		return material
-
-import numpy as np
 		
 class neutron:
 	def __init__(self):

@@ -50,27 +50,27 @@ Material
 import numpy as np
 
 class foam:
-    '''
-    Class Definition
-    '''
-    def __init__(self):
-        '''
+	'''
+	Class Definition
+	'''
+	def __init__(self):
+        	'''
 		Initializes the foam to a Lithium impregnated foam with observed strut and pore dimensions
-        '''
-        self.li_imp(0.275)
+		'''
+		self.li_imp(0.275)
 		self.diameter = 5.08E4
 		
 	def li_imp(self, percent):
 		'''
 		Creates a foam with the observed parameters for the lithium impregnated foam sample
 		'''
-        self.type = "lithium"
+        	self.type = "lithium"
 		self.name = "observed Li impregnated"
 		self.strut = path_element.new('Li foam strut', 40.0, 10.0, material.li_foam(percent))
 		self.pore = path_element.new('argon pore', 500.0, 100.0, material.lithium_argon())
 		self.layer = None
 		
-    def 5_ppi(self):
+    	def ppi_5(self):
 		'''
 		Creates a foam with the observed parameters for 5 ppi RVC B4C coated sample
 		'''
@@ -80,7 +80,7 @@ class foam:
 		self.pore = path_element.new('argon pore', 4850.0, 810.0, material.boron_argon())
 		self.layer = path_element.new('boron carbide layer', 10.25, 2.57, material.enriched_b4c())
     
-	def 10_ppi(self):
+	def ppi_10(self):
 		'''
 		Creates a foam with the observed parameters for 10 ppi RVC B4C coated sample
 		'''
@@ -90,7 +90,7 @@ class foam:
 		self.pore = path_element.new('argon pore', 4000.0, 540.0, material.boron_argon())
 		self.layer = path_element.new('boron carbide layer', 9.33, 1.34, material.enriched_b4c())   
 	
-	def 20_ppi(self):
+	def ppi_20(self):
 		'''
 		Creates a foam with the observed parameters for 20 ppi RVC B4C coated sample
 		'''
@@ -100,7 +100,7 @@ class foam:
 		self.pore = path_element.new('argon pore', 3260.0, 460.0, material.boron_argon())
 		self.layer = path_element.new('boron carbide layer',9.97, 1.20, material.enriched_b4c())
 		
-	def 45_ppi(self):
+	def ppi_45(self):
 		'''
 		Creates a foam with the observed parameters for 45 ppi RVC B4C coated sample
 		'''
@@ -110,7 +110,7 @@ class foam:
 		self.pore = path_element.new('argon pore', 1470.0, 150.0, material.boron_argon())
 		self.layer = path_element.new('boron carbide layer', 6.85, 1.17, material.enriched_b4c())
 		
-	def 80_ppi(self):
+	def ppi_80(self):
 		'''
 		Creates a foam with the observed parameters for 80 ppi RVC B4C coated sample
 		'''
@@ -120,7 +120,7 @@ class foam:
 		self.pore = path_element.new('argon pore', 630.0, 120.0, material.boron_argon())
 		self.layer = path_element.new('boron carbide layer', 7.17, 3.20, material.enriched_b4c())
 		
-class path_element
+class path_element:
 	'''
 	Path elements are the constituents that make up a foam (struts, pores, and layers).
 	Each element will have a name, average value, standard deviation, and material assigned to it.
@@ -148,14 +148,14 @@ class path_element
 		average value and ranging +/- 1 S.D.
 		'''
 		if self.type == 'boron':
-			
+			pass
 		else:
-			
+			pass
 		return thickness
 
 from bisect import bisect, bisect_right, bisect_left
 		
-class material
+class material:
 	'''
 	Every path element will have a material.
 	Materials contain ionization and residual energy lists as well as the neutron 
@@ -291,7 +291,7 @@ class material
 			if index >= length:
 				left_index, right_index = -1, None
 			elif energy == self.alpha_ionization[index,1]:
-				left_index right_index = index, index
+				left_index, right_index = index, index
 			elif index == 0:
 				left_index, right_index = none, 0
 			else:
@@ -308,7 +308,7 @@ class material
 			if index >= length:
 				left_index, right_index = -1, None
 			elif energy == self.ion_ionization[index,1]:
-				left_index right_index = index, index
+				left_index, right_index = index, index
 			elif index == 0:
 				left_index, right_index = none, 0
 			else:
@@ -333,7 +333,7 @@ class material
 			if index >= length:
 				left_index, right_index = -1, None
 			elif energy == self.alpha_ionization[index,0]:
-				left_index right_index = index, index
+				left_index, right_index = index, index
 			elif index == 0:
 				left_index, right_index = none, 0
 			else:
@@ -350,7 +350,7 @@ class material
 			if index >= length:
 				left_index, right_index = -1, None
 			elif energy == self.ion_ionization[index,0]:
-				left_index right_index = index, index
+				left_index, right_index = index, index
 			elif index == 0:
 				left_index, right_index = none, 0
 			else:

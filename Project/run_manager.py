@@ -24,15 +24,15 @@ Run Manager
 		Broadcast Foam Parameters
 """
 
-from history.py import *
-from rng.py import *
-from particle.py import *
-from foam.py import *
+from history import *
+from rng import *
+from particle import *
+from foam import *
 
 class manager:
-    def __init__(self, foam):
-        '''
-        '''
+	def __init__(self, foam):
+		'''
+		'''
 		self.foam = foam
 		self.lld = 0.0
 		self.phs = []
@@ -44,12 +44,12 @@ class manager:
 		self.iteration = 0
 		pass
 					
-	def set_histories(self, n)
+	def set_histories(self, n):
 		'''
 		'''
 		self.histories = n
 		
-	def set_lld(self, lld)
+	def set_lld(self, lld):
 		'''
 		'''
 		self.lld = lld

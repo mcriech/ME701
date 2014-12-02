@@ -20,14 +20,14 @@ History
 		Send Result 
 """
 
-from foam.py import *
+from foam import *
 import numpy as np
 
 class history:
-    def __init__(self, random_vector):
-        '''
-        Initialize a new history
-        '''
+	def __init__(self, random_vector):
+		'''
+		Initialize a new history
+		'''
 		self.rn = 0
 		self.random_vector = random_vector
 		self.neutron = neutron()
@@ -38,7 +38,7 @@ class history:
 	def set_foam(self, foam):
 		self.foam = foam
 		self.neutron.foam = foam
-		
+
 	def random(self):
 		'''
 		Returns the the next random number from the random number vector and then adds 1 to the
@@ -70,7 +70,7 @@ class history:
 					#Strut
 					path_element = 'strut'
 					thickness = self.foam.strut.new_thickness(self.random())
-				if self.neutron.path_index % 4 == 1 | 3:
+				if self.neutron.path_index % 4 == 1 | self.neutron.path_index % 4 == 3:
 					#Layer
 					path_element = 'layer'
 					thickness = self.foam.layer.new_thickness(self.random())
@@ -215,7 +215,7 @@ class history:
 						#Strut
 						path_element = 'strut'
 						thickness = self.foam.strut.new_thickness(self.random())
-					if self.neutron.path_index % 4 == 0 | 2
+					if self.neutron.path_index % 4 == 0 | self.neutron.path_index % 4 == 2:
 						#Layer
 						path_element = 'layer'
 						thickness = self.foam.layer.new_thickness(self.random())

@@ -8,11 +8,11 @@ Purpose:
 '''
 
 from mpi4py import MPI
-from history.py import *
-from rng.py import *
-from particle.py import *
-from foam.py import *
-from run_manager.py import *
+from history import *
+from rng import *
+from particle import *
+from foam import *
+from run_manager import *
 
 #Set up MPI
 comm = MPI.COMM_WORLD
@@ -39,7 +39,7 @@ run.set_stride(stride)
 if rank == 0:
 	for r in range(1, size):
 		for i in range(n_per_node):
-			random_number_vector(i) = rng.vector(stride)
+			random_number_vector[i] = rng.vector(stride)
 		comm.send(random_number_vector, dest=r, tag=111)
 	random_number_vector = rng.vector(node_stride)
 else:
