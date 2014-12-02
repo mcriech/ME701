@@ -1,10 +1,18 @@
-'''
-created: 2014.11.19
+"""
+Created: Monday Dec 1st, 2014
+
 @author: Michael Reichenberger
-'''
-'''
-Import Statements
-'''
+
+Purpose: 
+RNG
+	Variables
+		Seed: Int
+		a: Int
+		m: Int
+	Methods
+		Generate New Random Number
+		Generate Random Number Vector
+"""
 class rng:
     '''
     Class Definition
@@ -18,15 +26,21 @@ class rng:
         self.a = 16807.
         self.m = 2147483647.
         
-    def Define(self, a, m, seed):
+    def define(self, a, m, seed):
         '''
         Seed the generator with 'seed'
         '''        
         self.a = a
         self.m = m
         self.seed = seed
+		
+	def seed(self, seed):
+		'''
+		Sets a new seed for the RNG
+		'''
+		self.seed = seed
         
-    def Vector(self, N):
+    def vector(self, N):
         '''
         Generates a vector of N random numbers from 0 to 1
         '''
@@ -36,7 +50,7 @@ class rng:
             vec[j] = float(int(self.seed)/self.m)
         return vec
     
-    def Int_Vector(self, N):
+    def int_vector(self, N):
         '''
         Generates a vector of N random integers from 0 to m
         '''
@@ -46,14 +60,14 @@ class rng:
             vec[j] = self.seed
         return vec
         
-    def New(self):
+    def new(self):
         '''
         Generates a new random number from 0 - 1 based on the seed value
         '''
         self.seed = self.a*self.seed%self.m   
         return float(int(self.seed)/self.m)
      
-    def Int_New(self):
+    def int_new(self):
         '''
         Generates a new random integer from 0 to m based on the seed value
         '''
