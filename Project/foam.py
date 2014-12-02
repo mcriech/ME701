@@ -8,6 +8,7 @@ Foam
 	Variables
 		Type: Str (Lithium or Boron)
 		Name: Str
+		Max_Diameter: Float
 		Strut: Path Element
 		Pore: Path Element
 		Layer: Path Element
@@ -57,6 +58,7 @@ class foam:
 		Initializes the foam to a Lithium impregnated foam with observed strut and pore dimensions
         '''
         self.li_imp(0.275)
+		self.diameter = 5.08E4
 		
 	def li_imp(self, percent):
 		'''

@@ -34,37 +34,20 @@ class manager:
         '''
         '''
 		self.foam = foam
-		self.rng = rng()
 		self.lld = 0.0
-		self.stride = 10000
+		self.phs = []
 		self.counts = 0
 		self.interactions = 0
 		self.escapes = 0
-		self.nodes = 0
 		self.histories = 10
+		self.random_vector = [[]]
+		self.iteration = 0
 		pass
-			
-	def set_nodes(self, nodes):
-		'''
-		'''
-		self.nodes = nodes
-		
+					
 	def set_histories(self, n)
 		'''
 		'''
 		self.histories = n
-		
-	def get_random_vector(self, seed):
-		'''
-		'''
-		self.rng.seed(seed)
-		rn_vector = self.rng.vector(self.stride)
-		return rn_vector
-		
-	def set_stride(self, stride)
-		'''
-		'''
-		self.stride = stride
 		
 	def set_lld(self, lld)
 		'''
@@ -74,11 +57,8 @@ class manager:
 	def execute_history(self):
 		'''
 		'''
-		#Calculate the seed for this history and seed the rng
-		seed = 
-		rng.seed(seed)
 		#Initialize the history with a vector of random numbers
-		history = history(self.get_random_vector(seed))
+		history = history(self.random_vector(self.iteration))
 		#Set the foam for the history
 		history.set_foam(foam)
 		#Transport a neutron for this history
@@ -91,7 +71,7 @@ class manager:
 				self.counts += 1
 		else:
 			self.escapes += 1
-		
+		self.iteration += 1
 	
 			
 	
