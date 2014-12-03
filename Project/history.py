@@ -40,7 +40,6 @@ class history:
 		Returns the the next random number from the random number vector and then adds 1 to the
 		random number counter
 		'''
-		if self.rn >= 1500: print len(self.random_vector), self.rn
 		random = self.random_vector[self.rn]
 		self.rn += 1
 		return random

@@ -7,6 +7,7 @@ Purpose:
 
 '''
 from __future__ import division
+from matplotlib import pyplot as plt
 from mpi4py import MPI
 from history import *
 from rng import *
@@ -23,11 +24,11 @@ size = comm.Get_size()
 foam = foam()
 foam.diameter = 2.0E4
 foam.li_imp(0.045)
-#foam.strut.new('Li foam strut', 13.0, 1.0, 'self.mat.li_foam(0.275)') 
+#foam.strut.new('Li foam strut', 13.0, 1.0, 'self.mat.li_foam(0.045)') 
 
 #Set # histories and stride
-n = 1000
-stride = 1500
+n = 10000
+stride = 3500
 
 #Determine histories per node
 n_per_node = int(n/size)
@@ -62,16 +63,20 @@ if rank != 0:
 	comm.send(run.escapes, dest=0, tag=222)
 	comm.send(run.interactions, dest=0, tag=223)
 	comm.send(run.iteration, dest=0, tag=224)
+	#comm.send(run.phs, dest=0, tag=225)
 else:
 	counts = run.counts
 	escapes = run.escapes
 	interactions = run.interactions
 	histories = run.iteration
+	#phs = []
+	#phs.append(run.phs)
 	for r in range(1, size):
 		counts += comm.recv(source=r, tag=221)
 		escapes += comm.recv(source=r, tag=222)
 		interactions += comm.recv(source=r, tag=223)
 		histories += comm.recv(source=r, tag=224)
+		#phs += comm.recv(source=r, tag=225)
 #Output results
 	efficiency = float(counts) / float(histories) * 100.0
 	print "Intrinsic Thermal Neutron Efficiency:\n", foam.name, "foam\n", foam.diameter*1E-4, "cm cylindrical device:\n", efficiency, "%"
@@ -79,6 +84,10 @@ else:
 	print "interaction:", interactions
 	print "escapes:", escapes
 	print "counts:", counts
+	#plt.figure(1)
+	#plt.hist(phs, 10)
+	#plt.show()
+
 
 
 

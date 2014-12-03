@@ -35,8 +35,8 @@ class run_manager:
 		'''
 		self.foam = foam
 		self.lld = 0.0
-		self.phs = [None]
-		self.energy_deposition = [None]
+		self.phs = []
+		self.energy_deposition = []
 		self.counts = 0
 		self.interactions = 0
 		self.escapes = 0
@@ -65,7 +65,7 @@ class run_manager:
 			self.energy_deposition.append(hist.ionization)
 			self.interactions += 1
 			if hist.ionization >= self.lld:
-				self.phs.append(hist.ionization)
+				self.phs.append(hist.ionization*1E-6)
 				self.counts += 1
 		else:
 			self.escapes += 1
