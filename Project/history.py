@@ -21,30 +21,26 @@ History
 """
 
 from foam import *
+from particle import *
 import numpy as np
 
 class history:
-	def __init__(self, random_vector):
+	def __init__(self, random_vector, foam):
 		'''
 		Initialize a new history
 		'''
 		self.rn = 0
 		self.random_vector = random_vector
-		self.neutron = neutron()
-		self.device_diam = 0.0
+		self.neutron = neutron(foam)
 		self.ionization = 0.0
-		self.foam = foam()
-		
-	def set_foam(self, foam):
 		self.foam = foam
-		self.neutron.foam = foam
-
+		
 	def random(self):
 		'''
 		Returns the the next random number from the random number vector and then adds 1 to the
 		random number counter
 		'''
-		random = self.random_vector(self.rn)
+		random = self.random_vector[self.rn]
 		self.rn += 1
 		return random
 		
@@ -52,37 +48,38 @@ class history:
 		'''
 		All neutron paths begin with a pore
 		'''
-		while self.neutron.interaction == False & self.neutron.location < self.device_diam:
+		interaction_x = 0.0
+		interaction_y = 0.0
+		while self.neutron.interaction == False and self.neutron.location < self.neutron.foam.diameter:
 			#Generate a new path element
 			#First determine if there are 2 or 3 path elements
-			if self.foam.type == "lithium":
+			if self.neutron.foam.type == "lithium":
 				#Determine which path element to make
 				if self.neutron.path_index % 2 == 1:
 					path_element = 'strut'
-					thickness = self.foam.strut.new_thickness(self.random())
+					thickness = self.neutron.foam.strut.new_thickness(self.random())
 				else:
 					#Pore
 					path_element = 'pore'
-					thickness = self.foam.pore.new_thickness(self.random())					
+					thickness = self.neutron.foam.pore.new_thickness(self.random())					
 			else:
 				#Determine which path element to make
 				if self.neutron.path_index % 4 == 2:
 					#Strut
 					path_element = 'strut'
-					thickness = self.foam.strut.new_thickness(self.random())
-				if self.neutron.path_index % 4 == 1 | self.neutron.path_index % 4 == 3:
+					thickness = self.neutron.foam.strut.new_thickness(self.random())
+				if self.neutron.path_index % 4 == 1 or self.neutron.path_index % 4 == 3:
 					#Layer
 					path_element = 'layer'
-					thickness = self.foam.layer.new_thickness(self.random())
+					thickness = self.neutron.foam.layer.new_thickness(self.random())
 				else:
 					#Pore
 					path_element = 'pore'
-					thickness = self.foam.pore.new_thickness(self.random())
+					thickness = self.neutron.foam.pore.new_thickness(self.random())
 			#Determine where the neutron hits the element
 			#Some distance between the center and the outer edge of the path element
-			position = self.random()
 			if path_element == 'strut':
-				if self.foam.type == 'lithium':
+				if self.neutron.foam.type == 'lithium':
 					#Lithiated strut
 					#Find the chord through the strut
 					#interaction_y is the perpendicular distance to the intersection point (radius * random)
@@ -93,7 +90,7 @@ class history:
 					#Adjust path length for strut tilt (theta)
 					omega = self.random()
 					path_length = path_length/omega
-					strut_length = self.foam.pore.new_thickness(self.random())
+					strut_length = self.neutron.foam.pore.new_thickness(self.random())
 					#If the particle is travelling through the top of the strut, the path length
 					#needs to be relative to the strut length rather than the diameter
 					if path_length > strut_length:
@@ -115,7 +112,7 @@ class history:
 				#Adjust path length for the vertical position hitting the pore
 				#Basically doing the same thing, but with a smaller circle
 				position = self.random()
-				interaction_y = path_length/2*position
+				interaction_y = path_length/2.0*position
 				path_length = 2*np.sqrt((path_length/2)**2 - interaction_y**2)
 			#Add the new path element to the neutron path
 			self.neutron.path.append((path_length, path_element))
@@ -140,20 +137,22 @@ class history:
 				#Interaction took place in a lithiated strut
 				#Thickness is the diameter of the strut
 				#Strut_length is the height of the strut
-				x0 = interaction_x
-				y0 = interaction_y
+				x0 = -thickness/2 + x
+				y0 = y
 				z0 = 0.0
 				#alpha, beta, and gamma are direction cosines for the emission angle (0 to 1)
-				alpha = self.random()
-				beta = self.random()
+				alpha = self.random()*2 - 1
+				beta = self.random()*2 - 1
 				gamma = self.random()
 				#See how long the ray is to the edge of the cylinder
 				a = alpha**2 + beta**2
 				b = 2*(x0*alpha + y0*beta)
 				c = x0**2 + y0**2 - thickness
+				print a, b, c, '\n', alpha, beta, gamma, '\n', x0, y0, thickness
 				path_length = (-b + np.sqrt(b**2 - 4*a*c))/(2*a)
 				if path_length < 0:
 					path_length = (-b - np.sqrt(b**2 - 4*a*c))/(2*a)
+				print path_length, '\n'
 				if (z0 + gamma*path_length) > length:
 					path_length = (length - z0)/gamma
 				#Add the path length to the particle path
@@ -175,11 +174,11 @@ class history:
 		for particle in (self.neutron.alpha, self.neutron.ion):
 			particle.path_index = 0
 			while particle.energy > 0:
-				if self.foam.type == "lithium":
+				if particle.foam.type == "lithium":
 					#Determine which path element to make
-					if self.neutron.path_index % 2 == 0:
+					if particle.path_index % 2 == 0:
 						path_element = 'strut'
-						thickness = self.foam.strut.new_thickness(self.random())
+						thickness =particle.foam.strut.new_thickness(self.random())
 						#Find the chord through the strut
 						#d is the perpendicular distance to the intersection point (radius * random)
 						position = self.random()
@@ -189,7 +188,7 @@ class history:
 						#Adjust path length for strut tilt (theta)
 						omega = self.random()
 						path_length = path_length/omega
-						strut_length = self.foam.pore.new_thickness(self.random())
+						strut_length = particle.foam.pore.new_thickness(self.random())
 						#If the particle is travelling through the top of the strut, the path length
 						#needs to be relative to the strut length rather than the diameter
 						if path_length > strut_length:
@@ -197,7 +196,7 @@ class history:
 					else:
 						#Pore
 						path_element = 'pore'
-						thickness = self.foam.pore.new_thickness(self.random())
+						thickness = particle.foam.pore.new_thickness(self.random())
 						#Find the horizontal chord through the pore
 						#d is the perpendicular distance to the intersection point (radius * random)
 						position = self.random()
@@ -214,15 +213,15 @@ class history:
 					if self.neutron.path_index % 4 == 1:
 						#Strut
 						path_element = 'strut'
-						thickness = self.foam.strut.new_thickness(self.random())
-					if self.neutron.path_index % 4 == 0 | self.neutron.path_index % 4 == 2:
+						thickness = particle.foam.strut.new_thickness(self.random())
+					if self.neutron.path_index % 4 == 0 or self.neutron.path_index % 4 == 2:
 						#Layer
 						path_element = 'layer'
-						thickness = self.foam.layer.new_thickness(self.random())
+						thickness = particle.foam.layer.new_thickness(self.random())
 					else:
 						#Pore
 						path_element = 'pore'
-						thickness = self.foam.pore.new_thickness(self.random())
+						thickness = particle.foam.pore.new_thickness(self.random())
 				#Add the path length to the particle path
 				particle.path.append((path_length, path_element))
 				#Find the energy lost through the path element
@@ -236,5 +235,5 @@ class history:
 					ionization = particle.energy - res_energy
 					particle.add_ionization(ionization)
 				particle.energy = res_energy
-			ionization += particle.report_ionization()
-			return ionization			
+			history_ionization += particle.report_ionization()
+			return history_ionization			

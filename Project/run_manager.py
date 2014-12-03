@@ -29,20 +29,20 @@ from rng import *
 from particle import *
 from foam import *
 
-class manager:
+class run_manager:
 	def __init__(self, foam):
 		'''
 		'''
 		self.foam = foam
 		self.lld = 0.0
-		self.phs = []
+		self.phs = [None]
+		self.energy_deposition = [None]
 		self.counts = 0
 		self.interactions = 0
 		self.escapes = 0
 		self.histories = 10
-		self.random_vector = [[]]
+		self.random_vector = []
 		self.iteration = 0
-		pass
 					
 	def set_histories(self, n):
 		'''
@@ -58,16 +58,14 @@ class manager:
 		'''
 		'''
 		#Initialize the history with a vector of random numbers
-		history = history(self.random_vector(self.iteration))
-		#Set the foam for the history
-		history.set_foam(foam)
+		hist = history(self.random_vector[self.iteration], self.foam)
 		#Transport a neutron for this history
-		interaction = history.transport_neutron()
+		interaction = hist.transport_neutron()
 		if interaction:
-			self.energy_deposition.append(history.ionization)
-			self.interaction += 1
-			if history.ionization >= self.lld:
-				self.phs.append(history.ionization)
+			self.energy_deposition.append(hist.ionization)
+			self.interactions += 1
+			if hist.ionization >= self.lld:
+				self.phs.append(hist.ionization)
 				self.counts += 1
 		else:
 			self.escapes += 1

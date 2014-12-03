@@ -57,6 +57,9 @@ class foam:
         	'''
 		Initializes the foam to a Lithium impregnated foam with observed strut and pore dimensions
 		'''
+		self.strut = path_element()
+		self.pore = path_element()
+		self.layer = path_element()
 		self.li_imp(0.275)
 		self.diameter = 5.08E4
 		
@@ -66,8 +69,11 @@ class foam:
 		'''
         	self.type = "lithium"
 		self.name = "observed Li impregnated"
-		self.strut = path_element.new('Li foam strut', 40.0, 10.0, material.li_foam(percent))
-		self.pore = path_element.new('argon pore', 500.0, 100.0, material.lithium_argon())
+		self.strut = path_element()
+		self.pore = path_element()
+		lithium_strut_string = 'self.mat.li_foam(' + str(percent) + ')'
+		self.strut.new('Li foam strut', 40.0, 10.0, lithium_strut_string)
+		self.pore.new('argon pore', 500.0, 100.0, 'self.mat.lithium_argon()')
 		self.layer = None
 		
     	def ppi_5(self):
@@ -76,9 +82,12 @@ class foam:
 		'''
 		self.type = "boron"
 		self.name = "5 ppi RVC"
-		self.strut = path_element.new('carbon strut', 418.33, 117.21, material.carbon())
-		self.pore = path_element.new('argon pore', 4850.0, 810.0, material.boron_argon())
-		self.layer = path_element.new('boron carbide layer', 10.25, 2.57, material.enriched_b4c())
+		self.strut = path_element()
+		self.pore = path_element()
+		self.layer = path_element()
+		self.strut.new('carbon strut', 418.33, 117.21, self.mat.carbon())
+		self.pore.new('argon pore', 4850.0, 810.0, self.mat.boron_argon())
+		self.layer.new('boron carbide layer', 10.25, 2.57, self.mat.enriched_b4c())
     
 	def ppi_10(self):
 		'''
@@ -86,9 +95,12 @@ class foam:
 		'''
 		self.type = "boron"
 		self.name = "10 ppi RVC"
-		self.strut = path_element.new('carbon strut', 349.06, 83.21, material.carbon())
-		self.pore = path_element.new('argon pore', 4000.0, 540.0, material.boron_argon())
-		self.layer = path_element.new('boron carbide layer', 9.33, 1.34, material.enriched_b4c())   
+		self.strut = path_element()
+		self.pore = path_element()
+		self.layer = path_element()
+		self.strut.new('carbon strut', 349.06, 83.21, self.mat.carbon())
+		self.pore.new('argon pore', 4000.0, 540.0, self.mat.boron_argon())
+		self.layer.new('boron carbide layer', 9.33, 1.34, self.mat.enriched_b4c())   
 	
 	def ppi_20(self):
 		'''
@@ -96,9 +108,12 @@ class foam:
 		'''
 		self.type = "boron"
 		self.name = "20 ppi RVC"
-		self.strut = path_element.new('carbon strut', 285.27, 72.48, material.carbon())
-		self.pore = path_element.new('argon pore', 3260.0, 460.0, material.boron_argon())
-		self.layer = path_element.new('boron carbide layer',9.97, 1.20, material.enriched_b4c())
+		self.strut = path_element()
+		self.pore = path_element()
+		self.layer = path_element()
+		self.strut.new('carbon strut', 285.27, 72.48, self.mat.carbon())
+		self.pore.new('argon pore', 3260.0, 460.0, self.mat.boron_argon())
+		self.layer.new('boron carbide layer',9.97, 1.20, self.mat.enriched_b4c())
 		
 	def ppi_45(self):
 		'''
@@ -106,9 +121,12 @@ class foam:
 		'''
 		self.type = "boron"
 		self.name = "45 ppi RVC"
-		self.strut = path_element.new('carbon strut', 120.48, 39.89, material.carbon())
-		self.pore = path_element.new('argon pore', 1470.0, 150.0, material.boron_argon())
-		self.layer = path_element.new('boron carbide layer', 6.85, 1.17, material.enriched_b4c())
+		self.strut = path_element()
+		self.pore = path_element()
+		self.layer = path_element()
+		self.strut.new('carbon strut', 120.48, 39.89, self.mat.carbon())
+		self.pore.new('argon pore', 1470.0, 150.0, self.mat.boron_argon())
+		self.layer.new('boron carbide layer', 6.85, 1.17, self.mat.enriched_b4c())
 		
 	def ppi_80(self):
 		'''
@@ -116,9 +134,12 @@ class foam:
 		'''
 		self.type = "boron"
 		self.name = "80 ppi RVC"
-		self.strut = path_element.new('carbon strut', 50.45, 11.06, material.carbon())
-		self.pore = path_element.new('argon pore', 630.0, 120.0, material.boron_argon())
-		self.layer = path_element.new('boron carbide layer', 7.17, 3.20, material.enriched_b4c())
+		self.strut = path_element()
+		self.pore = path_element()
+		self.layer = path_element()
+		self.strut.new('carbon strut', 50.45, 11.06, self.mat.carbon())
+		self.pore.new('argon pore', 630.0, 120.0, self.mat.boron_argon())
+		self.layer.new('boron carbide layer', 7.17, 3.20, self.mat.enriched_b4c())
 		
 class path_element:
 	'''
@@ -131,7 +152,8 @@ class path_element:
 		'''
 		Initializes the path element as a lithium impregnated strut
 		'''
-		self.new('Li foam strut', 40.0, 10.0, material.li_foam(0.275))
+		self.mat = material()
+		self.new('Li foam strut', 40.0, 10.0, 'self.mat.li_foam(0.275)')
 		
 	def new(self, name, avg, sd, mat):
 		'''
@@ -140,17 +162,14 @@ class path_element:
 		self.name = str(name)
 		self.avg = float(avg)
 		self.sd = float(sd)
-		self.mat = mat
+		eval(mat)
 		
 	def new_thickness(self, random):
 		'''
 		Generates a thickness for the path element using a uniform distribution centered about an 
 		average value and ranging +/- 1 S.D.
 		'''
-		if self.type == 'boron':
-			pass
-		else:
-			pass
+		thickness = (self.avg - self.sd) + random*2*self.sd
 		return thickness
 
 from bisect import bisect, bisect_right, bisect_left
@@ -172,23 +191,23 @@ class material:
 		'''
 		Creates the lithiated foam material for struts in the lithiated foams.
 		Reads in ionization and residual energy tables from ./data
-		Determines the mean free path of a neutron in the foam.
+		Determines the mean free path of a neutron in the foam
 		Requires the foam saturation to be provided
 		'''
 		self.name = 'lithiated foam'
-		self.alpha_ionization = np.loadtxt('./data/lithium_alpha_strut.csv')
-		self.ion_ionization = np.loadtxt('./data/lithium_triton_strut.csv')
+		self.alpha_ionization = np.transpose(np.loadtxt('./data/lithium_alpha_strut.csv', delimiter=','))
+		self.ion_ionization = np.transpose(np.loadtxt('./data/lithium_triton_strut.csv', delimiter=','))
 		#Calculate the mean free path of a thermal neutron in the lithiated foam
 		strut_density = 1.2
 		foam_atomic_mass = 18.9934032
 		lithium_atomic_mass = 6.941
 		lithiated_foam_atomic_mass = (lithium_atomic_mass*0.5 + foam_atomic_mass*0.5)/2.0
-		percent_li = percent_lif*lithium_atomic_mass*lithiated_foam_atomic_mass
+		percent_li = percent_lif*lithium_atomic_mass/lithiated_foam_atomic_mass
 		li_micro_cs = 940E-24
 		li_macro_cs = percent_li*6.022E23*li_micro_cs/lithium_atomic_mass
-		self.mfp = 1/(strut_density*li_macro_cs)
+		self.mfp = 1E4*1/(strut_density*li_macro_cs)
 		#Set the length of the ionization tables
-		self.set_ionization_table_length
+		self.set_ionization_table_length()
 		
 	def lithium_argon(self):
 		'''
@@ -197,11 +216,11 @@ class material:
 		Use a mean free path of 1000000000 to prevent neutron interactions from occurring
 		'''
 		self.name = 'argon'
-		self.alpha_ionization = np.loadtxt('./data/lithium_alpha_argon.csv')
-		self.ion_ionization = np.loadtxt('./data/lithium_triton_argon.csv')
+		self.alpha_ionization = np.transpose(np.loadtxt('./data/lithium_alpha_argon.csv', delimiter=','))
+		self.ion_ionization = np.transpose(np.loadtxt('./data/lithium_triton_argon.csv', delimiter=','))
 		self.mfp = 1000000000.0
 		#Set the length of the ionization tables
-		self.set_ionization_table_length
+		self.set_ionization_table_length()
 		
 	def boron_argon(self):
 		'''
@@ -210,11 +229,11 @@ class material:
 		Use a mean free path of 1000000000 to prevent neutron interactions from occurring
 		'''
 		self.name = 'argon'
-		self.alpha_ionization = np.loadtxt('./data/boron_alpha_argon.csv')
-		self.ion_ionization = np.loadtxt('./data/boron_ion_argon.csv')
+		self.alpha_ionization = np.transpose(np.loadtxt('./data/boron_alpha_argon.csv'))
+		self.ion_ionization = np.transpose(np.loadtxt('./data/boron_ion_argon.csv'))
 		self.mfp = 1000000000.0
 		#Set the length of the ionization tables
-		self.set_ionization_table_length
+		self.set_ionization_table_length()
 		
 	def carbon(self):
 		'''
@@ -223,11 +242,11 @@ class material:
 		Use a mean free path of 1000000000 to prevent neutron interactions from occurring
 		'''
 		self.name = 'carbon'
-		self.alpha_ionization = np.loadtxt('./data/boron_alpha_carbon.csv')
-		self.ion_ionization = np.loadtxt('./data/boron_ion_carbon.csv') 
+		self.alpha_ionization = np.transpose(np.loadtxt('./data/boron_alpha_carbon.csv'))
+		self.ion_ionization = np.transpose(np.loadtxt('./data/boron_ion_carbon.csv'))
 		self.mfp = 1000000000.0
 		#Set the length of the ionization tables
-		self.set_ionization_table_length
+		self.set_ionization_table_length()
 		
 	def enriched_b4c(self):
 		'''
@@ -236,17 +255,17 @@ class material:
 		Determines the mean free path of a neutron in the foam.
 		'''
 		self.name = 'B4C'
-		self.alpha_ionization = np.loadtxt('./data/boron_alpha_b4c.csv')
-		self.ion_ionization = np.loadtxt('./data/boron_ion_b4c.csv')
+		self.alpha_ionization = np.transpose(np.loadtxt('./data/boron_alpha_b4c.csv'))
+		self.ion_ionization = np.transpose(np.loadtxt('./data/boron_ion_b4c.csv'))
 		#Calculate the mean free path of a thermal neutron in the enriched b4c	
 		b4c_density = 2.52
 		percent_boron = 0.7826
 		boron_enrichment = 1
 		b4c_atomic_mass = 52.0107
 		boron_micro_cs = 3842E-24
-		self.mfp = 1/b4c_density*percent_boron*boron_enrichment*6.022E23*boron_micro_cs/b4c_atomic_mass
+		self.mfp = 1E4*1/b4c_density*percent_boron*boron_enrichment*6.022E23*boron_micro_cs/b4c_atomic_mass
 		#Set the length of the ionization tables
-		self.set_ionization_table_length
+		self.set_ionization_table_length()
 		
 	def natural_b4c(self):
 		'''
@@ -255,17 +274,17 @@ class material:
 		Determines the mean free path of a neutron in the foam.
 		'''
 		self.name = 'B4C'
-		self.alpha_ionization = np.loadtxt('./data/boron_alpha_b4c.csv')
-		self.ion_ionization = np.loadtxt('./data/boron_ion_b4c.csv') 
+		self.alpha_ionization = np.transpose(np.loadtxt('./data/boron_alpha_b4c.csv'))
+		self.ion_ionization = np.transpose(np.loadtxt('./data/boron_ion_b4c.csv'))
 		#Calculate the mean free path of a thermal neutron in the natural b4c		
 		b4c_density = 2.52
 		percent_boron = 0.7826
 		boron_enrichment = 0.199
 		b4c_atomic_mass = 55.255
 		boron_micro_cs = 3842E-24
-		self.mfp = 1/b4c_density*percent_boron*boron_enrichment*6.022E23*boron_micro_cs/b4c_atomic_mass
+		self.mfp = 1E4*1/b4c_density*percent_boron*boron_enrichment*6.022E23*boron_micro_cs/b4c_atomic_mass
 		#Set the length of the ionization tables
-		self.set_ionization_table_length
+		self.set_ionization_table_length()
 		
 	def get_mfp(self):
 		'''
@@ -276,8 +295,8 @@ class material:
 	def set_ionization_table_length(self):
 		'''
 		'''
-		self.alpha_ionization_length = len(alpha_ionization)
-		self.ion_ionization_length = len(ion_ionization)
+		self.alpha_ionization_length = len(self.alpha_ionization)
+		self.ion_ionization_length = len(self.ion_ionization)
 		
 	def get_x(self, energy, reaction_product):
 		'''
@@ -287,39 +306,36 @@ class material:
 		'''
 		if reaction_product == 'alpha':
 			length = self.alpha_ionization_length
-			index = bisect_left(self.alpha_ionization[:,1], energy)
+			index = bisect_left(self.alpha_ionization[1], energy)
 			if index >= length:
-				left_index, right_index = -1, None
-			elif energy == self.alpha_ionization[index,1]:
-				left_index, right_index = index, index
+				x = self.alpha_ionization[0][length]
+			elif energy == self.alpha_ionization[1][index]:
+				x = self.alpha_ionization[0][index]
 			elif index == 0:
-				left_index, right_index = none, 0
+				x = 0
 			else:
 				left_index, right_index = index - 1, index
-			
-			left_energy = self.alpha_ionization[left_index, 1]
-			right_energy = self.alpha_ionization[right_index, 1]
-			left_x = self.alpha_ionization[left_index, 0]
-			right_x = self.alpha_ionization[right_index, 0]
-			x = (right_energy - energy)/(right_energy - left_energy)*(right_x - left_x) + left_x
+				left_energy = self.alpha_ionization[1][left_index]
+				right_energy = self.alpha_ionization[ 1][right_index]
+				left_x = self.alpha_ionization[0][left_index]
+				right_x = self.alpha_ionization[0][right_index]
+				x = (left_energy - energy)/(left_energy - right_energy)*(right_x - left_x) + left_x
 		else:
 			length = self.ion_ionization_length
-			index = bisect_left(self.ion_ionization[:,1], energy)
+			index = bisect_left(self.ion_ionization[1], energy)
 			if index >= length:
-				left_index, right_index = -1, None
-			elif energy == self.ion_ionization[index,1]:
-				left_index, right_index = index, index
+				x = self.ion_ionization[0][length]
+			elif energy == self.ion_ionization[1][index]:
+				x = self.ion_ionization[0][index]
 			elif index == 0:
-				left_index, right_index = none, 0
+				x = 0
 			else:
 				left_index, right_index = index - 1, index
-			
-			left_energy = self.ion_ionization[left_index, 1]
-			right_energy = self.ion_ionization[right_index, 1]
-			left_x = self.ion_ionization[left_index, 0]
-			right_x = self.ion_ionization[right_index, 0]
-			x = (right_energy - energy)/(right_energy - left_energy)*(right_x - left_x) + left_x
-		
+				left_energy = self.ion_ionization[1][left_index]
+				right_energy = self.ion_ionization[1][right_index]
+				left_x = self.ion_ionization[0][left_index]
+				right_x = self.ion_ionization[0][right_index]
+				x = (left_energy - energy)/(left_energy - right_energy)*(right_x - left_x) + left_x
 		return x
 		
 	def get_res_energy(self, x, reaction_product):
@@ -327,38 +343,38 @@ class material:
 		Determines the residual energy of the reaction product after traversing a distance (x) into
 		the material.
 		'''
-		if reaction_product == 'alpha':
+		res_energy = float
+		if reaction_product.name == 'alpha':
 			length = self.alpha_ionization_length
-			index = bisect_left(self.alpha_ionization[:,0], x)
+			index = bisect_left(self.alpha_ionization[0], x*1E4)
 			if index >= length:
-				left_index, right_index = -1, None
-			elif energy == self.alpha_ionization[index,0]:
-				left_index, right_index = index, index
+				res_energy = 0
+			elif reaction_product.energy == self.alpha_ionization[0][index]:
+				res_energy = self.alpha_ionization[0][index]
 			elif index == 0:
-				left_index, right_index = none, 0
+				res_energy = self.alpha_ionization[0][index]
 			else:
 				left_index, right_index = index - 1, index
-			
-			left_energy = self.alpha_ionization[left_index, 1]
-			right_energy = self.alpha_ionization[right_index, 1]
-			left_x = self.alpha_ionization[left_index, 0]
-			right_x = self.alpha_ionization[right_index, 0]
-			res_energy = (right_x - x)/(right_x - left_x)*(right_energy - left_energy) + left_energy
+				left_energy = self.alpha_ionization[1][left_index]
+				right_energy = self.alpha_ionization[1][right_index]
+				left_x = self.alpha_ionization[0][left_index]*1E4
+				right_x = self.alpha_ionization[0][right_index]*1E4
+				res_energy = (right_x - x)/(right_x - left_x)*(left_energy - right_energy) + right_energy
 		else:
 			length = self.ion_ionization_length
-			index = bisect_left(self.ion_ionization[:,0], x)
+			index = bisect_left(self.ion_ionization[0], x*1E4)
+
 			if index >= length:
-				left_index, right_index = -1, None
-			elif energy == self.ion_ionization[index,0]:
-				left_index, right_index = index, index
+				res_energy = 0
+			elif reaction_product.energy == self.ion_ionization[0][index]:
+				res_energy = self.ion_ionization[0][index]
 			elif index == 0:
-				left_index, right_index = none, 0
+				res_energy = self.ion_ionization[0][index]
 			else:
 				left_index, right_index = index - 1, index
-			
-			left_energy = self.ion_ionization[left_index, 1]
-			right_energy = self.ion_ionization[right_index, 1]
-			left_x = self.ion_ionization[left_index, 0]
-			right_x = self.ion_ionization[right_index, 0]
-			res_energy = (right_x - x)/(right_x - left_x)*(right_energy - left_energy) + left_energy
+				left_energy = self.ion_ionization[1][left_index]
+				right_energy = self.ion_ionization[1][right_index]
+				left_x = self.ion_ionization[0][left_index]*1E4
+				right_x = self.ion_ionization[0][right_index]*1E4
+				res_energy = (right_x - x)/(right_x - left_x)*(left_energy - right_energy) + right_energy
 		return res_energy
