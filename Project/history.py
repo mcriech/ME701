@@ -19,7 +19,7 @@ History
 		Transport Reaction Products
 		Send Result 
 """
-
+from __future__ import division
 from foam import *
 from particle import *
 import numpy as np
@@ -60,10 +60,12 @@ class history:
 				if self.neutron.path_index % 2 == 1:
 					path_element = 'strut'
 					thickness = self.neutron.foam.strut.new_thickness(self.random())
+					#print thickness
 				else:
 					#Pore
 					path_element = 'pore'
-					thickness = self.neutron.foam.pore.new_thickness(self.random())					
+					thickness = self.neutron.foam.pore.new_thickness(self.random())
+					#print thickness
 			else:
 				#Determine which path element to make
 				if self.neutron.path_index % 4 == 2:
@@ -89,16 +91,20 @@ class history:
 					interaction_y = thickness/2*position
 					#Find chord length given perpendicular distance
 					path_length = 2*np.sqrt((thickness/2)**2 - interaction_y**2)
+					#By observation, the length is roughly related to the diameter of the pores
+					#Using 1/2 of the pore diameter
+					strut_length = .5*self.neutron.foam.pore.new_thickness(self.random())
+					#Find Interaction height
+					interaction_z = strut_length/2.0*self.random()					
 					#Adjust path length for strut tilt (theta)
 					omega = self.random()
 					path_length = path_length/omega
-					strut_length = self.neutron.foam.pore.new_thickness(self.random())
+					#Each strut has a finite length					
 					#If the particle is travelling through the top of the strut, the path length
 					#needs to be relative to the strut length rather than the diameter
-					if path_length > strut_length:
-						omega = 1 - omega
-						path_length = strut_length/omega
-						omega = 1 - omega
+					distance_to_top = strut_length/2.0 - interaction_z
+					if path_length > distance_to_top/(1 - omega):
+						path_length = distance_to_top/(1 - omega)
 				else:
 					#Carbon Strut
 					pass
@@ -126,31 +132,38 @@ class history:
 			#Increase the neutron path index by 1
 			self.neutron.path_index += 1
 		if self.neutron.interaction == True:
+			#print thickness, path_length
+			#print omega, interaction_x
+			#print interaction_x*omega
 			interaction_x = interaction_x*omega
-			self.reaction_products_first_path_length(interaction_x, interaction_y, thickness, strut_length)
+			self.reaction_products_first_path_length(interaction_x, interaction_y, thickness, strut_length, omega)
 			self.ionization = self.transport_reaction_products()
 		else:
 			pass
 		return self.neutron.interaction
 			
-	def reaction_products_first_path_length(self, x, y, thickness, length):
+	def reaction_products_first_path_length(self, x, y, thickness, length, omega):
 		'''
 		'''
 		for particle in (self.neutron.alpha, self.neutron.ion):
 			if self.neutron.foam.type == 'lithium':
+				#print particle.name				
 				path_element = 'strut'
 				#Interaction took place in a lithiated strut
 				#Thickness is the diameter of the strut
 				#Strut_length is the height of the strut
 				radius = thickness/2
-				x0 = np.sqrt(radius**2 - y**2) - x
+				x0 = -np.sqrt(radius**2 - y**2) + x
 				y0 = y
-				z0 = 0.0
+				z0 = (x/omega)*(1 - omega)
+				#print z0
 				#alpha, beta, and gamma are direction cosines for the emission angle (0 to 1)
 				if particle.name == 'alpha':				
-					alpha = self.random()*2 - 1
-					beta = self.random()*2 - 1
-					gamma = self.random()
+					theta = 2*np.pi*self.random()
+					phi = np.pi*self.random()	
+					alpha = np.cos(theta)*np.sin(phi)
+					beta = np.sin(theta)*np.sin(phi)
+					gamma = np.cos(phi)
 				else:
 					alpha = alpha*-1
 					beta = beta*-1
@@ -159,13 +172,18 @@ class history:
 				a = alpha**2 + beta**2
 				b = 2*(x0*alpha + y0*beta)
 				c = x0**2 + y0**2 - radius**2
-				#print a, b, c, '\n', alpha, beta, gamma, '\n', x0, y0, radius
+				#if (b**2 - 4*a*c) < 0:
+				#print x, y, omega, thickness, length/2
+				#print a, b, c
+				#print alpha, beta, gamma
+				#print x0, y0, z0, radius
+				#print b**2 - 4*a*c, '\n'
 				path_length = (-b + np.sqrt(b**2 - 4*a*c))/(2*a)
 				if (path_length < 0):
 					path_length = (-b - np.sqrt(b**2 - 4*a*c))/(2*a)
 				path_length = np.sqrt(path_length**2/(1 - gamma**2))
-				if (z0 + gamma*path_length) > length:
-					path_length = (length - z0)/gamma
+				if (z0 + gamma*path_length) > length/2:
+					path_length = (length/2 - z0)/gamma
 				#Add the path length to the particle path
 				particle.path.append((path_length, path_element))
 			else:
@@ -176,8 +194,10 @@ class history:
 			lead_in_x = 0
 			#Find the res energy
 			res_energy = particle.retrieve_res_energy(path_length)
-			print particle.name, path_length, res_energy
+			#print path_length, res_energy
 			particle.energy = res_energy
+			#if (particle.name == 'alpha') and (particle.energy > 0):
+			#	print particle.energy
 		
 	def transport_reaction_products(self):
 		'''

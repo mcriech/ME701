@@ -23,7 +23,7 @@ Run Manager
 		Set Foam Parameters
 		Broadcast Foam Parameters
 """
-
+from __future__ import division
 from history import *
 from rng import *
 from particle import *

@@ -6,7 +6,7 @@ Created: Monday Dec 1st, 2014
 Purpose: 
 
 '''
-
+from __future__ import division
 from mpi4py import MPI
 from history import *
 from rng import *
@@ -21,11 +21,12 @@ size = comm.Get_size()
 
 #Set foam
 foam = foam()
+foam.diameter = 2.0E4
 foam.li_imp(0.045)
 #foam.strut.new('Li foam strut', 13.0, 1.0, 'self.mat.li_foam(0.275)') 
 
 #Set # histories and stride
-n = 10000
+n = 1000
 stride = 1500
 
 #Determine histories per node

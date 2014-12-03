@@ -34,7 +34,7 @@ Reaction Product
 		Add Ionization
 		Report Ionization		
 """
-
+from __future__ import division
 from foam import *
 import numpy as np
 
@@ -93,7 +93,8 @@ class neutron(particle):
 		if path_element[1] == "strut" and self.foam.type == "lithium":
 			material = self.get_material()
 			mfp = self.foam.strut.mat.get_mfp()
-			interaction_distance = -mfp*np.log(1 - random)
+			interaction_distance = -mfp*np.log(random)
+			#print mfp, interaction_distance
 			if interaction_distance <= path_element[0]:
 				self.interaction = True
 				(self.alpha, self.ion) = self.create_reaction_products()
@@ -101,7 +102,7 @@ class neutron(particle):
 		if path_element[1] == "layer" and self.foam.type == "boron":
 			material = self.get_material()
 			mfp = self.foam.layer.mat.get_mfp()
-			interaction_distance = -mfp*np.log(1 - random)
+			interaction_distance = -mfp*np.log(random)
 			if interaction_distance <= path_element[0]:
 				self.interaction = True
 				(self.alpha, self.ion) = self.create_reaction_products()

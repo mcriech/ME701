@@ -47,6 +47,7 @@ Material
 		get lead-in x
 		get residual energy
 """
+from __future__ import division
 import numpy as np
 
 class foam:
@@ -60,7 +61,7 @@ class foam:
 		self.strut = path_element()
 		self.pore = path_element()
 		self.layer = path_element()
-		self.li_imp(0.275)
+		#self.li_imp(0.275)
 		self.diameter = 5.08E4
 		
 	def li_imp(self, percent):
@@ -73,7 +74,7 @@ class foam:
 		self.pore = path_element()
 		lithium_strut_string = 'self.mat.li_foam(' + str(percent) + ')'
 		self.strut.new('Li foam strut', 40.0, 10.0, lithium_strut_string)
-		self.pore.new('argon pore', 500.0, 100.0, 'self.mat.lithium_argon()')
+		self.pore.new('argon pore', 500.0, 200.0, 'self.mat.lithium_argon()')
 		self.layer = None
 		
     	def ppi_5(self):
@@ -153,7 +154,7 @@ class path_element:
 		Initializes the path element as a lithium impregnated strut
 		'''
 		self.mat = material()
-		self.new('Li foam strut', 40.0, 10.0, 'self.mat.li_foam(0.275)')
+		#self.new('Li foam strut', 40.0, 10.0, 'self.mat.li_foam(0.275)')
 		
 	def new(self, name, avg, sd, mat):
 		'''
@@ -185,7 +186,7 @@ class material:
 		'''
 		Initializes a new path element as a 27.5% saturated lithiated foam strut
 		'''
-		self.li_foam(0.275)
+		#self.li_foam(0.275)
 		
 	def li_foam(self, percent_lif):
 		'''
@@ -201,8 +202,8 @@ class material:
 		strut_density = 1.2
 		foam_atomic_mass = 18.9934032
 		lithium_atomic_mass = 6.941
-		lithiated_foam_atomic_mass = (lithium_atomic_mass*0.5 + foam_atomic_mass*0.5)/2.0
-		percent_li = percent_lif*lithium_atomic_mass/lithiated_foam_atomic_mass
+		P = (lithium_atomic_mass*0.5 + foam_atomic_mass*0.5)
+		percent_li = percent_lif*lithium_atomic_mass*0.5/P
 		li_micro_cs = 940E-24
 		li_macro_cs = percent_li*6.022E23*li_micro_cs/lithium_atomic_mass
 		self.mfp = 1E4*1/(strut_density*li_macro_cs)

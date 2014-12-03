@@ -13,6 +13,7 @@ RNG
 		Generate New Random Number
 		Generate Random Number Vector
 """
+from __future__ import division
 class rng:
     '''
     Class Definition
