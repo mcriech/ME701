@@ -295,8 +295,8 @@ class material:
 	def set_ionization_table_length(self):
 		'''
 		'''
-		self.alpha_ionization_length = len(self.alpha_ionization)
-		self.ion_ionization_length = len(self.ion_ionization)
+		self.alpha_ionization_length = len(self.alpha_ionization[0])
+		self.ion_ionization_length = len(self.ion_ionization[0])
 		
 	def get_x(self, energy, reaction_product):
 		'''
@@ -306,7 +306,7 @@ class material:
 		'''
 		if reaction_product == 'alpha':
 			length = self.alpha_ionization_length
-			index = bisect_left(self.alpha_ionization[1], energy)
+			index = self.reverse_bisect(self.alpha_ionization[1], energy)
 			if index >= length:
 				x = self.alpha_ionization[0][length]
 			elif energy == self.alpha_ionization[1][index]:
@@ -322,9 +322,9 @@ class material:
 				x = (left_energy - energy)/(left_energy - right_energy)*(right_x - left_x) + left_x
 		else:
 			length = self.ion_ionization_length
-			index = bisect_left(self.ion_ionization[1], energy)
+			index = self.reverse_bisect(self.ion_ionization[1], energy)
 			if index >= length:
-				x = self.ion_ionization[0][length]
+				x = self.ion_ionization[0][length - 1]
 			elif energy == self.ion_ionization[1][index]:
 				x = self.ion_ionization[0][index]
 			elif index == 0:
@@ -336,8 +336,20 @@ class material:
 				left_x = self.ion_ionization[0][left_index]
 				right_x = self.ion_ionization[0][right_index]
 				x = (left_energy - energy)/(left_energy - right_energy)*(right_x - left_x) + left_x
+		#Need to convert from cm to um
+		x = x*1E4
 		return x
 		
+	def reverse_bisect(self, a, x):
+		length = len(a)
+		low = 0
+		hi = length
+		while low < hi:
+			mid = (low + hi)//2
+			if x > a[mid]: hi = mid
+			else: low = mid + 1
+		return low
+
 	def get_res_energy(self, x, reaction_product):
 		'''
 		Determines the residual energy of the reaction product after traversing a distance (x) into
@@ -346,35 +358,31 @@ class material:
 		res_energy = float
 		if reaction_product.name == 'alpha':
 			length = self.alpha_ionization_length
-			index = bisect_left(self.alpha_ionization[0], x*1E4)
+			index = bisect_left(self.alpha_ionization[0], x*1E-4)
 			if index >= length:
 				res_energy = 0
 			elif reaction_product.energy == self.alpha_ionization[0][index]:
-				res_energy = self.alpha_ionization[0][index]
-			elif index == 0:
 				res_energy = self.alpha_ionization[0][index]
 			else:
 				left_index, right_index = index - 1, index
 				left_energy = self.alpha_ionization[1][left_index]
 				right_energy = self.alpha_ionization[1][right_index]
-				left_x = self.alpha_ionization[0][left_index]*1E4
-				right_x = self.alpha_ionization[0][right_index]*1E4
-				res_energy = (right_x - x)/(right_x - left_x)*(left_energy - right_energy) + right_energy
+				left_x = self.alpha_ionization[0][left_index]
+				right_x = self.alpha_ionization[0][right_index]
+				res_energy = (right_x - x*1E-4)/(right_x - left_x)*(left_energy - right_energy) + right_energy
 		else:
 			length = self.ion_ionization_length
-			index = bisect_left(self.ion_ionization[0], x*1E4)
+			index = bisect_left(self.ion_ionization[0], x*1E-4)
 
 			if index >= length:
 				res_energy = 0
 			elif reaction_product.energy == self.ion_ionization[0][index]:
 				res_energy = self.ion_ionization[0][index]
-			elif index == 0:
-				res_energy = self.ion_ionization[0][index]
 			else:
 				left_index, right_index = index - 1, index
 				left_energy = self.ion_ionization[1][left_index]
 				right_energy = self.ion_ionization[1][right_index]
-				left_x = self.ion_ionization[0][left_index]*1E4
-				right_x = self.ion_ionization[0][right_index]*1E4
-				res_energy = (right_x - x)/(right_x - left_x)*(left_energy - right_energy) + right_energy
+				left_x = self.ion_ionization[0][left_index]
+				right_x = self.ion_ionization[0][right_index]
+				res_energy = (right_x - x*1E-4)/(right_x - left_x)*(left_energy - right_energy) + right_energy
 		return res_energy

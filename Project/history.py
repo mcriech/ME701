@@ -40,6 +40,7 @@ class history:
 		Returns the the next random number from the random number vector and then adds 1 to the
 		random number counter
 		'''
+		if self.rn >= 1500: print len(self.random_vector), self.rn
 		random = self.random_vector[self.rn]
 		self.rn += 1
 		return random
@@ -48,6 +49,7 @@ class history:
 		'''
 		All neutron paths begin with a pore
 		'''
+		self.neutron.interaction == False
 		interaction_x = 0.0
 		interaction_y = 0.0
 		while self.neutron.interaction == False and self.neutron.location < self.neutron.foam.diameter:
@@ -94,7 +96,9 @@ class history:
 					#If the particle is travelling through the top of the strut, the path length
 					#needs to be relative to the strut length rather than the diameter
 					if path_length > strut_length:
-						path_length = strut_length/(1 - omega)
+						omega = 1 - omega
+						path_length = strut_length/omega
+						omega = 1 - omega
 				else:
 					#Carbon Strut
 					pass
@@ -122,6 +126,7 @@ class history:
 			#Increase the neutron path index by 1
 			self.neutron.path_index += 1
 		if self.neutron.interaction == True:
+			interaction_x = interaction_x*omega
 			self.reaction_products_first_path_length(interaction_x, interaction_y, thickness, strut_length)
 			self.ionization = self.transport_reaction_products()
 		else:
@@ -137,22 +142,28 @@ class history:
 				#Interaction took place in a lithiated strut
 				#Thickness is the diameter of the strut
 				#Strut_length is the height of the strut
-				x0 = -thickness/2 + x
+				radius = thickness/2
+				x0 = np.sqrt(radius**2 - y**2) - x
 				y0 = y
 				z0 = 0.0
 				#alpha, beta, and gamma are direction cosines for the emission angle (0 to 1)
-				alpha = self.random()*2 - 1
-				beta = self.random()*2 - 1
-				gamma = self.random()
+				if particle.name == 'alpha':				
+					alpha = self.random()*2 - 1
+					beta = self.random()*2 - 1
+					gamma = self.random()
+				else:
+					alpha = alpha*-1
+					beta = beta*-1
+					gamma = gamma*-1
 				#See how long the ray is to the edge of the cylinder
 				a = alpha**2 + beta**2
 				b = 2*(x0*alpha + y0*beta)
-				c = x0**2 + y0**2 - thickness
-				print a, b, c, '\n', alpha, beta, gamma, '\n', x0, y0, thickness
+				c = x0**2 + y0**2 - radius**2
+				#print a, b, c, '\n', alpha, beta, gamma, '\n', x0, y0, radius
 				path_length = (-b + np.sqrt(b**2 - 4*a*c))/(2*a)
-				if path_length < 0:
+				if (path_length < 0):
 					path_length = (-b - np.sqrt(b**2 - 4*a*c))/(2*a)
-				print path_length, '\n'
+				path_length = np.sqrt(path_length**2/(1 - gamma**2))
 				if (z0 + gamma*path_length) > length:
 					path_length = (length - z0)/gamma
 				#Add the path length to the particle path
@@ -165,6 +176,7 @@ class history:
 			lead_in_x = 0
 			#Find the res energy
 			res_energy = particle.retrieve_res_energy(path_length)
+			print particle.name, path_length, res_energy
 			particle.energy = res_energy
 		
 	def transport_reaction_products(self):
@@ -176,7 +188,7 @@ class history:
 			while particle.energy > 0:
 				if particle.foam.type == "lithium":
 					#Determine which path element to make
-					if particle.path_index % 2 == 0:
+					if particle.path_index % 2 == 1:
 						path_element = 'strut'
 						thickness =particle.foam.strut.new_thickness(self.random())
 						#Find the chord through the strut
@@ -222,6 +234,7 @@ class history:
 						#Pore
 						path_element = 'pore'
 						thickness = particle.foam.pore.new_thickness(self.random())
+				
 				#Add the path length to the particle path
 				particle.path.append((path_length, path_element))
 				#Find the energy lost through the path element
