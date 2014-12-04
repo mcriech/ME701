@@ -116,6 +116,8 @@ class neutron(particle):
 		#Need to pass the foam into the reaction products
 		alpha = reaction_product(self.foam)
 		ion = reaction_product(self.foam)
+		alpha.location = self.location
+		ion.location = self.location
 		if self.foam.type == "lithium":
 			alpha.lithium_alpha()
 			ion.lithium_ion()
@@ -137,6 +139,7 @@ class reaction_product(particle):
 		self.path = []
 		self.path_index = 0
 		self.set_foam(foam)
+		self.location = 0.0
 		
 	def lithium_alpha(self):
 		'''

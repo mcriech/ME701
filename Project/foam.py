@@ -69,7 +69,7 @@ class foam:
 		Creates a foam with the observed parameters for the lithium impregnated foam sample
 		'''
         	self.type = "lithium"
-		self.name = "observed Li impregnated"
+		self.name = 'observed Li', percent*100, '% impregnated'
 		self.strut = path_element()
 		self.pore = path_element()
 		lithium_strut_string = 'self.mat.li_foam(' + str(percent) + ')'

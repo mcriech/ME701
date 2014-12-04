@@ -188,9 +188,8 @@ class history:
 			else:
 				#Interaction took place in a b4c layer
 				pass
+			particle.location += path_length*alpha
 			#Find the ionization in the first path length
-			#Find the lead-in x
-			lead_in_x = 0
 			#Find the res energy
 			res_energy = particle.retrieve_res_energy(path_length)
 			#print path_length, res_energy
