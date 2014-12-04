@@ -74,3 +74,18 @@ class rng:
         '''
         self.seed = self.a*self.seed%self.m   
         return self.seed
+
+
+if __name__ == "__main__" :
+	import time
+	import numpy as np
+	R = rng()
+	n = 1000000
+	t0 = time.time()
+	for i in range(n):
+		a = np.random.rand()
+		#a = R.new()
+	t1 = time.time()
+	et = t1-t0
+	print "Elapsed: ", et
+	print "rg's per sec = ", n / et

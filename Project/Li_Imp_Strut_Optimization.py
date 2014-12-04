@@ -7,6 +7,8 @@ Purpose:
 
 '''
 from __future__ import division
+import time
+import sys
 from matplotlib import pyplot as plt
 from mpi4py import MPI
 from history import *
@@ -19,16 +21,17 @@ from run_manager import *
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
+if rank == 0:
+	start_time = time.time()
 
 #Set foam
 foam = foam()
 foam.diameter = 2.0E4
-foam.li_imp(0.045)
+foam.li_imp(1)
 #foam.strut.new('Li foam strut', 13.0, 1.0, 'self.mat.li_foam(0.045)') 
 
 #Set # histories and stride
-n = 10000
-stride = 3500
+n = 1E3
 
 #Determine histories per node
 n_per_node = int(n/size)
@@ -39,20 +42,6 @@ run = run_manager(foam)
 run.set_lld(954000.0)
 #Set the number of histories for each node
 run.set_histories(n_per_node)
-
-#Generate the random numbers for all the nodes
-random_vector = []
-if rank == 0:
-	rng = rng()
-	for r in range(1, size):
-		random_vector = []
-		for i in range(n_per_node):
-			random_vector.append(rng.vector(stride))
-		comm.send(random_vector, dest=r, tag=111)
-	for i in range(n_per_node):
-		run.random_vector.append(rng.vector(stride))
-else:
-	run.random_vector = comm.recv(source=0, tag=111)
 
 #All nodes run histories
 for i in range(n_per_node):
@@ -84,9 +73,10 @@ else:
 	print "interaction:", interactions
 	print "escapes:", escapes
 	print "counts:", counts
-	#plt.figure(1)
-	#plt.hist(phs, 10)
-	#plt.show()
+
+	end_time = time.time()
+	time = end_time - start_time
+	print "Execution Time:", time
 
 
 

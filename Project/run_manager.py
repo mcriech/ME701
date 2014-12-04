@@ -41,7 +41,9 @@ class run_manager:
 		self.interactions = 0
 		self.escapes = 0
 		self.histories = 10
-		self.random_vector = []
+		self.rng = rng()
+		self.random_step = 0
+		self.random_vector = 1
 		self.iteration = 0
 					
 	def set_histories(self, n):
@@ -58,7 +60,7 @@ class run_manager:
 		'''
 		'''
 		#Initialize the history with a vector of random numbers
-		hist = history(self.random_vector[self.iteration], self.foam)
+		hist = history(self.rng, self.random_vector, self.random_step, self.foam)
 		#Transport a neutron for this history
 		interaction = hist.transport_neutron()
 		if interaction:
@@ -70,6 +72,7 @@ class run_manager:
 		else:
 			self.escapes += 1
 		self.iteration += 1
+		self.rng.seed = hist.rng.seed
 	
 			
 	
