@@ -25,7 +25,7 @@ Run Manager
 """
 from __future__ import division
 from history import *
-from rng import *
+from Random import *
 from particle import *
 from foam import *
 
@@ -41,9 +41,7 @@ class run_manager:
 		self.interactions = 0
 		self.escapes = 0
 		self.histories = 10
-		self.rng = rng()
-		self.random_step = 0
-		self.random_vector = 1
+		self.rng = Random()
 		self.iteration = 0
 					
 	def set_histories(self, n):
@@ -56,11 +54,12 @@ class run_manager:
 		'''
 		self.lld = lld
 				
-	def execute_history(self):
+	def execute_history(self, iteration):
 		'''
 		'''
 		#Initialize the history with a vector of random numbers
-		hist = history(self.rng, self.random_vector, self.random_step, self.foam)
+		self.rng.initialize_history(iteration)
+		hist = history(self.rng, self.foam)
 		#Transport a neutron for this history
 		interaction = hist.transport_neutron()
 		if interaction:
@@ -72,7 +71,6 @@ class run_manager:
 		else:
 			self.escapes += 1
 		self.iteration += 1
-		self.rng.seed = hist.rng.seed
 	
 			
 	

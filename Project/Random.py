@@ -35,7 +35,7 @@ class Random() :
 
     def initialize_history(self, h) :
         self.S = self.skip_ahead(h*self.stride)
-        print self.S
+        #print self.S
 
 if __name__ == "__main__" :
     import time

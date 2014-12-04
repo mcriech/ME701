@@ -25,13 +25,11 @@ from particle import *
 import numpy as np
 
 class history:
-	def __init__(self, random, random_vector, random_step, foam):
+	def __init__(self, random, foam):
 		'''
 		Initialize a new history
 		'''
 		self.rng = random
-		self.random_vector = random_vector
-		self.random_step = random_step
 		self.neutron = neutron(foam)
 		self.ionization = 0.0
 		self.foam = foam
@@ -41,7 +39,7 @@ class history:
 		Returns the the next random number from the random number vector and then adds 1 to the
 		random number counter
 		'''
-		random = self.rng.vector(self.random_vector)[self.random_step]
+		random = self.rng.rand()
 		return random
 		
 	def transport_neutron(self):

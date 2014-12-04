@@ -45,7 +45,8 @@ run.set_histories(n_per_node)
 
 #All nodes run histories
 for i in range(n_per_node):
-	run.execute_history()
+	iteration = n_per_node*rank + i
+	run.execute_history(iteration)
 #Collect counts, interactions, escapes, and phs from all nodes
 if rank != 0:
 	comm.send(run.counts, dest=0, tag=221)
