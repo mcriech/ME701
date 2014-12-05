@@ -31,7 +31,7 @@ foam.li_imp(1)
 #foam.strut.new('Li foam strut', 13.0, 1.0, 'self.mat.li_foam(0.045)') 
 
 #Set # histories and stride
-n = 1E3
+n = 1E5
 
 #Determine histories per node
 n_per_node = int(n/size)
