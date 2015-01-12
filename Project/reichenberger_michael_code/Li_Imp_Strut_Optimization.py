@@ -9,7 +9,6 @@ Purpose:
 from __future__ import division
 import time
 import sys
-from matplotlib import pyplot as plt
 from mpi4py import MPI
 from history import *
 from rng import *
@@ -54,20 +53,29 @@ if rank != 0:
 	comm.send(run.escapes, dest=0, tag=222)
 	comm.send(run.interactions, dest=0, tag=223)
 	comm.send(run.iteration, dest=0, tag=224)
+<<<<<<< HEAD:Project/Li_Imp_Strut_Optimization.py
 	comm.send(run.phs, dest=0, tag=225)
+=======
+>>>>>>> d0174bb09590568338627c92562213b27964c6f6:Project/reichenberger_michael_code/Li_Imp_Strut_Optimization.py
 else:
 	counts = run.counts
 	escapes = run.escapes
 	interactions = run.interactions
 	histories = run.iteration
+<<<<<<< HEAD:Project/Li_Imp_Strut_Optimization.py
 	phs = []
 	phs.append(run.phs)
+=======
+>>>>>>> d0174bb09590568338627c92562213b27964c6f6:Project/reichenberger_michael_code/Li_Imp_Strut_Optimization.py
 	for r in range(1, size):
 		counts += comm.recv(source=r, tag=221)
 		escapes += comm.recv(source=r, tag=222)
 		interactions += comm.recv(source=r, tag=223)
 		histories += comm.recv(source=r, tag=224)
+<<<<<<< HEAD:Project/Li_Imp_Strut_Optimization.py
 		phs += comm.recv(source=r, tag=225)
+=======
+>>>>>>> d0174bb09590568338627c92562213b27964c6f6:Project/reichenberger_michael_code/Li_Imp_Strut_Optimization.py
 #Output results
 	efficiency = float(counts) / float(histories) * 100.0
 	print "Intrinsic Thermal Neutron Efficiency:\n", foam.name, "foam\n", foam.diameter*1E-4, "cm cylindrical device:\n", efficiency, "%"
