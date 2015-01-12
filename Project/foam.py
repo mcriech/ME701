@@ -201,7 +201,7 @@ class material:
 		#Calculate the mean free path of a thermal neutron in the lithiated foam
 		strut_density = 1.2
 		foam_atomic_mass = 18.9934032
-		lithium_atomic_mass = 6.941
+		lithium_atomic_mass = 6.05
 		P = (lithium_atomic_mass*0.5 + foam_atomic_mass*0.5)
 		percent_li = percent_lif*lithium_atomic_mass*0.5/P
 		li_micro_cs = 940E-24

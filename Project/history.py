@@ -265,4 +265,4 @@ class history:
 					particle.add_ionization(ionization)
 				particle.energy = res_energy
 			history_ionization += particle.report_ionization()
-			return history_ionization			
+		return history_ionization			
